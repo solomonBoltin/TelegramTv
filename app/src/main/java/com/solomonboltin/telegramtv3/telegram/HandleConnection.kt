@@ -1,11 +1,9 @@
 package com.solomonboltin.telegramtv3.telegram
 
 import android.content.Context
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
-import com.solomonboltin.telegramtv3.views.login.AppState
-import com.solomonboltin.telegramtv3.views.login.ClientStatus
-import com.solomonboltin.telegramtv3.views.login.TgView
+import com.solomonboltin.telegramtv3.models.ClientStatus
+import com.solomonboltin.telegramtv3.vms.AppVm
+
 import org.drinkless.td.libcore.telegram.Client
 import org.drinkless.td.libcore.telegram.TdApi
 
@@ -14,7 +12,7 @@ import org.drinkless.td.libcore.telegram.TdApi
 //fun handelConnection(context: Context, viewModel: MainViewModel) {
 //
 //}
-class ClientHandler(val context: Context, val viewModel: TgView) {
+class ClientHandler(val context: Context, val viewModel: AppVm) {
     lateinit var client: Client
 
     init {
@@ -98,6 +96,6 @@ class ClientHandler(val context: Context, val viewModel: TgView) {
 }
 
 
-fun getClient() {
-    var client: Client? = null
+fun getClient(context: Context, appVm: AppVm): Client {
+    return ClientHandler(context, appVm).client
 }
