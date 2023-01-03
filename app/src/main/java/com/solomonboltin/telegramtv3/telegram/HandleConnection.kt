@@ -33,9 +33,7 @@ class ClientHandler(val context: Context, val viewModel: AppVm) {
                             TdApi.AuthorizationStateWaitTdlibParameters.CONSTRUCTOR -> {
                                 // Set TDLib parameters
                                 client.send(TdApi.SetTdlibParameters(getTdLibParams(context))) {
-                                    println(
-                                        "set tdlib parameters: $it"
-                                    )
+                                    println("set tdlib parameters: $it")
                                 }
                             }
                             TdApi.AuthorizationStateWaitEncryptionKey.CONSTRUCTOR -> {

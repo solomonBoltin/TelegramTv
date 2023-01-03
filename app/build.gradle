@@ -89,5 +89,20 @@ dependencies {
 
     implementation project(path: ':libtd')
 
+    def koin_version= "3.3.2"
+    def koin_android_compose_version= "3.4.1"
+
+
+
+
+    implementation "io.insert-koin:koin-core:$koin_version"
+    implementation "io.insert-koin:koin-android:$koin_version"
+
+    implementation "io.insert-koin:koin-androidx-navigation:$koin_version"
+    implementation "io.insert-koin:koin-androidx-compose:$koin_android_compose_version"
+//    implementation "io.insert-koin:koin-android-compat:$koin_version"
+
+    androidTestImplementation "io.insert-koin:koin-test:$koin_version"
+    testImplementation "io.insert-koin:koin-test:$koin_version"
 
 }
