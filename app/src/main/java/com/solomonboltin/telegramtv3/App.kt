@@ -1,7 +1,7 @@
 package com.solomonboltin.telegramtv3
 
 import android.app.Application
-import com.solomonboltin.telegramtv3.models.ClientStatus
+import com.solomonboltin.telegramtv3.vms.ClientVM
 import com.solomonboltin.telegramtv3.vms.AppVm
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -13,9 +13,8 @@ import org.koin.dsl.module
 
 class App: Application() {
     private val koinModule = module {
-        viewModel{ AppVm(get()) }
-
-        single<ClientStatus> { ClientStatus.Unknown}
+        viewModel{ AppVm() }
+        single { ClientVM() }
 
     }
 

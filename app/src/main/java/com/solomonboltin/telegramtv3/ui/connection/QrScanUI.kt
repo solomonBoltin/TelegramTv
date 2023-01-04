@@ -14,14 +14,15 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import com.solomonboltin.telegramtv3.vms.ClientVM
 import com.solomonboltin.telegramtv3.utils.QrUtils
-import com.solomonboltin.telegramtv3.vms.AppVm
 import org.drinkless.td.libcore.telegram.TdApi
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun RequestQrScan(viewModel: AppVm) {
+fun QrScanUI(clientVM: ClientVM = koinViewModel()) {
 
-    val state by viewModel.authState.collectAsState()
+    val state by clientVM.authState.collectAsState()
 
     Box(modifier = Modifier
         .height(400.dp)
