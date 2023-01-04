@@ -1,4 +1,4 @@
-package com.solomonboltin.telegramtv3.telegram
+package com.solomonboltin.telegramtv3.configuration
 
 import android.content.Context
 import android.os.Build
