@@ -1,6 +1,5 @@
 package com.solomonboltin.telegramtv3.ui.connection
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.solomonboltin.telegramtv3.vms.ClientVM
 import org.drinkless.td.libcore.telegram.TdApi
-import org.koin.androidx.compose.get
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
