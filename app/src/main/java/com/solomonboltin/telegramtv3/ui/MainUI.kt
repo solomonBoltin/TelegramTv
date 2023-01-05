@@ -1,6 +1,7 @@
 package com.solomonboltin.telegramtv3.ui
 
 import android.util.Log
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -8,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.solomonboltin.telegramtv3.vms.ClientVM
 import com.solomonboltin.telegramtv3.ui.connection.ConnectionUI
+import com.solomonboltin.telegramtv3.ui.movie.MoviesDashUI
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,11 +29,8 @@ fun MainUI() {
 
     when (clientState) {
         is TdApi.AuthorizationStateReady -> {
-            Text(text = "Hello ${user?.firstName}")
-            clientVM.client.send(TdApi.GetMe()) {
-                Log.i("MainUI", "GetMe response: $it")
-                clientVM.setUser(it as TdApi.User)
-            }
+            MoviesDashUI()
+
         }
         else -> { ConnectionUI() }
     }

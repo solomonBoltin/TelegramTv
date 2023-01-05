@@ -62,16 +62,18 @@ class ClientVM : ViewModel() {
             }
         }
     }
+
     private fun handleUserUpdate(user: TdApi.User) {
         setUser(user)
     }
+
     private fun restartClient() {
         client = createClient()
     }
 
-    // Public states
+    // Authentication state
     private var _authState = MutableStateFlow<TdApi.AuthorizationState?>(null)
-    val authState: StateFlow<TdApi.AuthorizationState?> =_authState.asStateFlow()
+    val authState: StateFlow<TdApi.AuthorizationState?> = _authState.asStateFlow()
     private fun setAuthState(authState: TdApi.AuthorizationState) {
         print("authState: $authState")
         _authState.update {
@@ -79,10 +81,12 @@ class ClientVM : ViewModel() {
         }
     }
 
+    // User state
     private var _user = MutableStateFlow<TdApi.User?>(null)
     val user: StateFlow<TdApi.User?> = _user.asStateFlow()
-    fun setUser(user: TdApi.User) { _user.update { user } }
-
+    fun setUser(user: TdApi.User) {
+        _user.update { user }
+    }
 
 
     init {
