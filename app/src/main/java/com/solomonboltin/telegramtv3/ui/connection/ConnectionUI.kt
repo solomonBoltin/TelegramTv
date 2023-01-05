@@ -19,7 +19,6 @@ fun ConnectionUI() {
     val authState by clientVm.authState.collectAsState()
 
     Box(
-
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Yellow)
@@ -31,12 +30,12 @@ fun ConnectionUI() {
             is TdApi.AuthorizationStateWaitEncryptionKey -> {
                 Text("Waiting for encryption key")
             }
-            is TdApi.AuthorizationStateWaitPhoneNumber -> Text(text ="Wait phone number")
+            is TdApi.AuthorizationStateWaitPhoneNumber -> Text("Wait phone number")
             is TdApi.AuthorizationStateWaitOtherDeviceConfirmation -> QrScanUI()
             is TdApi.AuthorizationStateClosed -> {
                 Text(text = "Connection closed")
             }
-            else -> Text("Unauthorized state: ${authState}")
+            else -> Text("Unknown Unauthorized state: $authState")
         }
     }
 }
