@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.relay' version '0.3.02'
+
 }
 
 android {
@@ -107,5 +109,7 @@ dependencies {
 
     // implment sl4j for logging
     implementation "org.slf4j:slf4j-android:1.7.30"
+
+    implementation "com.google.android.exoplayer:exoplayer:2.16.1"
 
 }

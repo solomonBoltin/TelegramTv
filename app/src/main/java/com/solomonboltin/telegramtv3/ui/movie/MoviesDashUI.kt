@@ -9,18 +9,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.solomonboltin.telegramtv3.models.Movie
 import com.solomonboltin.telegramtv3.vms.ClientVM
+import com.solomonboltin.telegramtv3.vms.FilesVM
 import com.solomonboltin.telegramtv3.vms.MovieMachineVM
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MoviesDashUI() {
     val clientVM = koinViewModel<ClientVM>()
+    val filesVM = koinViewModel<FilesVM>()
+    val coroutineScope = rememberCoroutineScope()
+
     val authState by clientVM.authState.collectAsState()
 
     val movieMachineVM = koinViewModel<MovieMachineVM>()
@@ -39,9 +46,7 @@ fun MoviesDashUI() {
 
     if (moviesState.isNotEmpty()) {
         Column(modifier = Modifier.padding(16.dp)) {
-            moviesState.forEach { movie ->
-                MovieUI(movie)
-            }
+            moviesState.forEach { movie -> MovieUI(movie) }
         }
     }
     else{

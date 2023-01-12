@@ -90,6 +90,12 @@ class MovieMachineVM(private val clientVm: ClientVM) : ViewModel() {
                 addMovie(movie)
                 return movie
             }
+            is TdApi.MessageVideo -> {
+                val doc = (message.content as TdApi.MessageVideo).video
+                val movie = Movie(doc.fileName, "2000", doc.video, message)
+                addMovie(movie)
+                return movie
+            }
         }
         Log.i("MovieMachineVM", "Failed loading movie from message: ${message.id}")
         return null

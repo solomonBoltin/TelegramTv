@@ -39,7 +39,7 @@ fun QrScanUI(clientVM: ClientVM = koinViewModel()) {
 
             val qrCodeBitmap = QrUtils.generateQrCode((state as TdApi.AuthorizationStateWaitOtherDeviceConfirmation).link)
             Image(
-                painter = BitmapPainter(qrCodeBitmap!!.asImageBitmap()),
+                painter = BitmapPainter(qrCodeBitmap!!),
                 contentDescription = "qr code",
                 modifier = Modifier
                     .width(300.dp)

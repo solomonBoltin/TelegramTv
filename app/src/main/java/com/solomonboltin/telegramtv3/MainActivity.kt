@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i("MainActivity", "Main activity created")
-
+        supportActionBar?.hide();
         setContent{ MainUI() }
     }
 }

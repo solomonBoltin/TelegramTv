@@ -18,6 +18,14 @@ class ClientVM : ViewModel() {
     private val context: Context by inject(Context::class.java)
     lateinit var client: Client
 
+    private var fileUpdatesHandler: (TdApi.File) -> Unit = {
+        Log.i("ClientVm", "No handler for file updates")
+    }
+
+    fun setFileUpdatesHandler(handler: (TdApi.File) -> Unit) {
+        fileUpdatesHandler = handler
+    }
+
 
     private fun createClient(): Client {
         return Client.create(
@@ -42,7 +50,15 @@ class ClientVM : ViewModel() {
             is TdApi.UpdateUser -> {
                 handleUserUpdate(update.user)
             }
+            is TdApi.UpdateFile -> {
+                handleFileUpdates(update.file)
+            }
         }
+    }
+
+    private fun handleFileUpdates(file: TdApi.File){
+        Log.i("ClientVm", "got file update: $file")
+        fileUpdatesHandler(file)
     }
 
     private fun handleAuthStateUpdate(authState: TdApi.AuthorizationState) {

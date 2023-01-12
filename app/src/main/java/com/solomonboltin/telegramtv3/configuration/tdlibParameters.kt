@@ -6,7 +6,7 @@ import org.drinkless.td.libcore.telegram.TdApi
 
 
 fun getTdLibParams (applicationContext: Context) = TdApi.TdlibParameters().apply {
-    useMessageDatabase = false
+    useMessageDatabase = true
     // writable database directory
     databaseDirectory = applicationContext.getDir("tdlib", Context.MODE_PRIVATE).absolutePath
     useSecretChats = false
