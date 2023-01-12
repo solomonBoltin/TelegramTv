@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "TelegramTv3"
 include ':app'
 include ':libtd'
+include ':build.gradle.kts'

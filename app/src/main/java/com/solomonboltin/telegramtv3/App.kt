@@ -3,6 +3,7 @@ package com.solomonboltin.telegramtv3
 import android.app.Application
 import com.solomonboltin.telegramtv3.vms.ClientVM
 import com.solomonboltin.telegramtv3.vms.AppVm
+import com.solomonboltin.telegramtv3.vms.FilesVM
 import com.solomonboltin.telegramtv3.vms.MovieMachineVM
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -17,6 +18,7 @@ class App : Application() {
     private val koinModule = module {
         single { AppVm() }
         single {  ClientVM() }
+        single { FilesVM(get()) }
         viewModel { MovieMachineVM(get()) }
 
     }
