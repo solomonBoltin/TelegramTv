@@ -5,8 +5,11 @@ plugins {
 
 }
 
+
+
+
 android {
-    namespace 'com.solomonboltin.telegramtv3'
+    namespace 'com.solomonboltin.telegramtv4'
     compileSdk 33
 
     sourceSets {
@@ -16,7 +19,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.solomonboltin.telegramtv3"
+        applicationId "com.solomonboltin.telegramtv4"
         minSdk 26
         targetSdk 33
         versionCode 1
@@ -45,6 +48,8 @@ android {
 }
 
 dependencies {
+    implementation("androidx.core:core-ktx:1.9.0")
+
     def composeBom = platform('androidx.compose:compose-bom:2022.12.00')
     implementation composeBom
     androidTestImplementation composeBom
