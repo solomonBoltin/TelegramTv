@@ -1,7 +1,8 @@
 package org.drinkless.td.libcore.telegram;
 
-import android.support.annotation.IntDef;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.Nullable;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -685,7 +686,8 @@ public class TdApi {
         /**
          * File containing the sound to be played when the animated emoji is clicked if any; may be null. The sound is encoded with the Opus codec, and stored inside an OGG container.
          */
-        @Nullable public File sound;
+        @Nullable
+        public File sound;
 
         /**
          * Describes an animated representation of an emoji.
