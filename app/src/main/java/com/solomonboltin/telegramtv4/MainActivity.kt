@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import com.solomonboltin.telegramtv4.frame18.Frame18
 import com.solomonboltin.telegramtv4.ui.MainUI
 
 class MainActivity : AppCompatActivity() {
@@ -12,6 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.i("MainActivity", "Main activity created")
         supportActionBar?.hide();
-        setContent{ MainUI() }
+        setContent{   MainUI()   }
+
     }
 }

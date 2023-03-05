@@ -1,10 +1,11 @@
 package com.solomonboltin.telegramtv4
 
 import android.app.Application
-import com.solomonboltin.telegramtv4.vms.ClientVM
+import com.solomonboltin.telegramtv4.struck.MovieDashVM
+import com.solomonboltin.telegramtv4.struck.TGMovieScrapper
 import com.solomonboltin.telegramtv4.vms.AppVm
+import com.solomonboltin.telegramtv4.vms.ClientVM
 import com.solomonboltin.telegramtv4.vms.FilesVM
-import com.solomonboltin.telegramtv4.vms.MovieMachineVM
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -16,9 +17,12 @@ import org.koin.dsl.module
 class App : Application() {
     private val koinModule = module {
         single { AppVm() }
-        single {  ClientVM() }
+        single { ClientVM() }
         single { FilesVM(get()) }
-        viewModel { MovieMachineVM(get()) }
+        single { resources }
+        single { TGMovieScrapper(get()) }
+        viewModel { MovieDashVM(get(), get()) }
+//        viewModel { MovieMachineVM(get()) }
 
     }
 
