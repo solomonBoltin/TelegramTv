@@ -96,12 +96,12 @@ fun MyContent(movie: Movie){
     val filesVM = koinViewModel<FilesVM>()
     var file: File? = null
     var path = ""
-
-    filesVM.seekFileOffset(movie.file.id)
-
-    file = filesVM.getFile(movie.file.id, condition = {
-        it.local.path.isNullOrBlank()
-    })
+//
+//    filesVM.seekFileOffset(movie.file.id)
+//
+//    file = filesVM.getFile(movie.file.id, condition = {
+//        it.local.path.isNullOrBlank()
+//    })
     Log.d("MyContent", "file: $file")
     // Declaring ExoPlayer
     // Fetching the Local Context
@@ -140,8 +140,11 @@ fun MyContent(movie: Movie){
 //                val mediaItem = source.createMediaSource(
 //                        newMediaItem(TDataSource.UriFactory.create(1, movie.file.id))!!
 //                    ).mediaItem
-            setMediaSource(ProgressiveMediaSource.Factory(TDataSource.Factory(filesVM)).createMediaSource(
-                newMediaItem(TDataSource.UriFactory.create(1, movie.file))!!))
+
+
+
+//            setMediaSource(ProgressiveMediaSource.Factory(TDataSource.Factory(filesVM)).createMediaSource(
+//                newMediaItem(TDataSource.UriFactory.create(1, movie.file))!!))
             playWhenReady = true
             prepare()
         }
@@ -163,7 +166,7 @@ fun MyContent(movie: Movie){
         val ur = "https://media.geeksforgeeks.org/wp-content/uploads/20220314114159/fv.mp4"
 //        filesVM.seekFileOffset(movie.file.id)
         println("EGL_emulation")
-        println(movie.file.local.path)
+//        println(movie.file.local.path)
 //        val file = RandomAccessFile(path, "r")
 //        println("EGL_emulation: file = $file")
 //        println("EGL_emulation: file.length() = ${file.length()}")

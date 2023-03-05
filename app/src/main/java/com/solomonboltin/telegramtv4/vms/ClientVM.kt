@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.solomonboltin.telegramtv4.configuration.getTdLibParams
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,6 +14,7 @@ import kotlinx.coroutines.flow.update
 import org.drinkless.td.libcore.telegram.Client
 import org.drinkless.td.libcore.telegram.TdApi
 import org.koin.java.KoinJavaComponent.inject
+import kotlin.math.log
 
 
 class ClientVM : ViewModel() {
@@ -22,9 +25,54 @@ class ClientVM : ViewModel() {
         Log.i("ClientVm", "No handler for file updates")
     }
 
+    fun sendBlocked(ob: TdApi.Function) : TdApi.Object? {
+        var response: TdApi.Object? = null
+        client.send(ob, {
+            response = it
+        }, {
+            Log.i("ClientVM", "Error: $it")
+        })
+
+        repeat(5) {
+            Thread.sleep(1000)
+            if (response != null) {
+                return response
+            }
+        }
+        Log.i("ClientVM", "Error: $response")
+        return response
+    }
+
     fun setFileUpdatesHandler(handler: (TdApi.File) -> Unit) {
         fileUpdatesHandler = handler
     }
+
+    fun getMessage(chatId: Long, messageId: Long, timeOut: Int = 20) : TdApi.Message {
+        var message = TdApi.Message()
+        println("messageId: $messageId")
+        println("chatId: $chatId")
+        client.send(TdApi.GetMessage(chatId, messageId),{
+            println("Message received: $it")
+            message =  it as TdApi.Message
+        },{
+            println("getting message Faild")
+        })
+
+
+        // what for message to be recived and raise exception if it takes more then 5 seconds
+        var time = 0
+        while (message.id != messageId && time < timeOut) {
+            Thread.sleep(1000)
+            time++
+        }
+        if (time == timeOut) {
+            print("Message not recieved in $timeOut seconds")
+            throw Exception("Message not recieved in $timeOut seconds")
+        }
+        println("Message recieved in $time seconds, returning message $message")
+        return message
+    }
+
 
 
     private fun createClient(): Client {
@@ -52,6 +100,8 @@ class ClientVM : ViewModel() {
             is TdApi.UpdateFile -> {
                 handleFileUpdates(update.file)
             }
+
+
         }
     }
 
