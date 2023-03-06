@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
 import com.solomonboltin.telegramtv4.connect.Connect
-import com.solomonboltin.telegramtv4.utils.QrUtils
+import com.solomonboltin.telegramtv4.tvb.utils.QrUtils
 import com.solomonboltin.telegramtv4.vms.ClientVM
 import org.drinkless.td.libcore.telegram.TdApi
 import org.koin.androidx.compose.koinViewModel

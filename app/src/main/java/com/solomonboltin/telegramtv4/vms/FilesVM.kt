@@ -2,7 +2,7 @@ package com.solomonboltin.telegramtv4.vms
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.solomonboltin.telegramtv4.models.Movie
+import com.solomonboltin.telegramtv4.tvb.models.Movie
 import kotlinx.coroutines.flow.*
 import org.drinkless.td.libcore.telegram.TdApi
 import org.drinkless.td.libcore.telegram.TdApi.File
@@ -57,7 +57,8 @@ class FilesVM(private val clientVM: ClientVM) : ViewModel() {
         Log.i("FilesVM", "getFile trying to get file $fileId")
 
         connect()
-        clientVM.client.send(TdApi.GetFile(fileId), null)
+
+        return clientVM.sendBlocked(TdApi.GetFile(fileId)) as File?
         repeat(100) {
             if (files[fileId] != null) {
 
@@ -72,12 +73,11 @@ class FilesVM(private val clientVM: ClientVM) : ViewModel() {
 
     fun seekFileOffset(fileId: Int, offset: Int = 0) {
         connect()
-        clientVM.client.send(TdApi.DownloadFile(fileId, 3, offset, 0, false)) {
+        val file = clientVM.sendBlocked(TdApi.DownloadFile(fileId, 3, offset, 0, false)) as File?
+        log.info("Request to download file: $fileId at offset: $offset, was sent")
+        filesHandler(file!!)
 
-            log.info("Request to download file: $fileId at offset: $offset, was sent")
-            it as File
-            filesHandler(it)
-        }
+
     }
 
     fun cancelDownload(fileId: Int) {

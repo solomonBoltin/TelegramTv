@@ -33,8 +33,8 @@ class ClientVM : ViewModel() {
             Log.i("ClientVM", "Error: $it")
         })
 
-        repeat(5) {
-            Thread.sleep(1000)
+        repeat(5 * 100) {
+            Thread.sleep(10)
             if (response != null) {
                 return response
             }
@@ -47,47 +47,6 @@ class ClientVM : ViewModel() {
         fileUpdatesHandler = handler
     }
 
-    fun getMessage(chatId: Long, messageId: Long, timeOut: Int = 20) : TdApi.Message {
-        var message = TdApi.Message()
-        println("messageId: $messageId")
-        println("chatId: $chatId")
-        client.send(TdApi.GetMessage(chatId, messageId),{
-            println("Message received: $it")
-            message =  it as TdApi.Message
-        },{
-            println("getting message Faild")
-        })
-
-
-        // what for message to be recived and raise exception if it takes more then 5 seconds
-        var time = 0
-        while (message.id != messageId && time < timeOut) {
-            Thread.sleep(1000)
-            time++
-        }
-        if (time == timeOut) {
-            print("Message not recieved in $timeOut seconds")
-            throw Exception("Message not recieved in $timeOut seconds")
-        }
-        println("Message recieved in $time seconds, returning message $message")
-        return message
-    }
-
-
-
-    private fun createClient(): Client {
-        return Client.create(
-            { update ->
-                handleUpdates(update)
-            },
-            { error ->
-                Log.i("ClientHandler", "error: $error")
-            },
-            { ex ->
-                Log.i("ClientException", ex.message.toString())
-            }
-        )
-    }
 
     private fun handleUpdates(update: TdApi.Object) {
         when (update) {
@@ -129,6 +88,20 @@ class ClientVM : ViewModel() {
 
     private fun handleUserUpdate(user: TdApi.User) {
         setUser(user)
+    }
+
+    private fun createClient(): Client {
+        return Client.create(
+            { update ->
+                handleUpdates(update)
+            },
+            { error ->
+                Log.i("ClientHandler", "error: $error")
+            },
+            { ex ->
+                Log.i("ClientException", ex.message.toString())
+            }
+        )
     }
 
     private fun restartClient() {
