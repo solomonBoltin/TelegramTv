@@ -2,7 +2,7 @@ package com.solomonboltin.telegramtv4.vms
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.solomonboltin.telegramtv4.models.Movie
+import com.solomonboltin.telegramtv4.tvb.models.Movie
 
 import kotlinx.coroutines.flow.*
 import org.drinkless.td.libcore.telegram.TdApi

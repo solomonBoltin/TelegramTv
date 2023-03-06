@@ -1,4 +1,4 @@
-package com.solomonboltin.telegramtv4.telegram
+package com.solomonboltin.telegramtv4.tvb.scrappers.telegram.media
 
 import android.net.Uri
 import android.util.Log
@@ -6,7 +6,6 @@ import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.upstream.BaseDataSource
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DataSpec
-import com.google.android.exoplayer2.upstream.TransferListener
 import com.solomonboltin.telegramtv4.vms.FilesVM
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -16,12 +15,9 @@ import org.drinkless.td.libcore.telegram.TdApi.*
 import java.io.IOException
 import java.io.RandomAccessFile
 import java.lang.Integer.parseInt
-import java.lang.Object
 import java.util.concurrent.CountDownLatch
-import java.util.concurrent.atomic.AtomicBoolean
-import java.util.concurrent.atomic.AtomicReference
 
-class TDataSource(private val filesVM: FilesVM) : BaseDataSource(true) {
+class TelegramVideoSource(private val filesVM: FilesVM) : BaseDataSource(true) {
 
     private var dataSpec: DataSpec? = null
     private var fileId: Int? = null
@@ -59,7 +55,7 @@ class TDataSource(private val filesVM: FilesVM) : BaseDataSource(true) {
 
     class Factory(private val filesVM: FilesVM) : DataSource.Factory {
         override fun createDataSource(): DataSource {
-            return TDataSource(filesVM)
+            return TelegramVideoSource(filesVM)
         }
     }
 
@@ -240,6 +236,7 @@ class TDataSource(private val filesVM: FilesVM) : BaseDataSource(true) {
             file = this.file
             this.file = null
 
+            if(file == null) return
             filesVM.cancelDownload(file!!.id)
             if (latch != null) {
                 latch!!.countDown()

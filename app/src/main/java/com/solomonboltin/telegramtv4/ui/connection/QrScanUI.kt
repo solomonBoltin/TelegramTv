@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.solomonboltin.telegramtv4.vms.ClientVM
-import com.solomonboltin.telegramtv4.utils.QrUtils
+import com.solomonboltin.telegramtv4.tvb.utils.QrUtils
 import org.drinkless.td.libcore.telegram.TdApi
 import org.koin.androidx.compose.koinViewModel
 

@@ -1,8 +1,8 @@
 package com.solomonboltin.telegramtv4
 
 import android.app.Application
-import com.solomonboltin.telegramtv4.struck.MovieDashVM
-import com.solomonboltin.telegramtv4.struck.TGMovieScrapper
+import com.solomonboltin.telegramtv4.tvb.scrappers.telegram.default.TGMovieScrapper
+import com.solomonboltin.telegramtv4.vms.MovieDashVM
 import com.solomonboltin.telegramtv4.vms.AppVm
 import com.solomonboltin.telegramtv4.vms.ClientVM
 import com.solomonboltin.telegramtv4.vms.FilesVM
@@ -21,7 +21,7 @@ class App : Application() {
         single { FilesVM(get()) }
         single { resources }
         single { TGMovieScrapper(get()) }
-        viewModel { MovieDashVM(get(), get()) }
+        single { MovieDashVM(get(), get()) }
 //        viewModel { MovieMachineVM(get()) }
 
     }

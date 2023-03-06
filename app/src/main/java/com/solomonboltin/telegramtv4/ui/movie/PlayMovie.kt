@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,8 +22,8 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.EventLogger
 import com.google.android.exoplayer2.util.Util
 import com.solomonboltin.telegramtv4.BackPressHandler
-import com.solomonboltin.telegramtv4.models.Movie
-import com.solomonboltin.telegramtv4.telegram.TDataSource
+import com.solomonboltin.telegramtv4.tvb.models.Movie
+import com.solomonboltin.telegramtv4.tvb.scrappers.telegram.media.TelegramVideoSource
 import com.solomonboltin.telegramtv4.vms.FilesVM
 import org.drinkless.td.libcore.telegram.TdApi.File
 import org.koin.androidx.compose.koinViewModel
@@ -142,11 +140,11 @@ fun MyContent(movie: Movie){
 //                    ).mediaItem
 
 
+            setMediaSource(ProgressiveMediaSource.Factory(TelegramVideoSource.Factory(filesVM)).createMediaSource(movie.file!!))
 
-//            setMediaSource(ProgressiveMediaSource.Factory(TDataSource.Factory(filesVM)).createMediaSource(
-//                newMediaItem(TDataSource.UriFactory.create(1, movie.file))!!))
             playWhenReady = true
             prepare()
+
         }
     }
 
