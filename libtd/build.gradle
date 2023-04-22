@@ -8,18 +8,15 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 33
-    buildToolsVersion "24.0.3"
 
     sourceSets.main {
         jniLibs.srcDir 'src/main/libs'
-        jni.srcDirs = [] //disable automatic ndk-build call
+        //disable automatic ndk-build call
     }
 
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 33
-        versionCode 1
-        versionName "1.0"
     }
     buildTypes {
         release {
@@ -27,11 +24,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
-
-    lintOptions {
-        // use this line to check all rules except those listed
+    lint {
         disable 'InvalidPackage'
     }
+    namespace 'org.drinkless.td.libcore'
+
 }
 
 dependencies {

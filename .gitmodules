@@ -1,0 +1,3 @@
+[submodule "vkryl/X-Core"]
+	path = vkryl/X-Core
+	url = https://github.com/TGX-Android/X-Core/

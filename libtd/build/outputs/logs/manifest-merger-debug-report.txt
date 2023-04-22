@@ -1,28 +1,28 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:8:1-19:12
-INJECTED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:8:1-19:12
-INJECTED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:8:1-19:12
+ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:8:1-18:12
+INJECTED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:8:1-18:12
+INJECTED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:8:1-18:12
 	package
-		ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:9:5-39
 		INJECTED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml
+		ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:8:1-18:12
 		INJECTED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:8:11-69
 uses-permission#android.permission.INTERNET
-ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:11:5-66
+ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:10:5-66
 	android:name
-		ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:11:22-64
+		ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:10:22-64
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:12:5-80
+ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:11:5-80
 	android:name
-		ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:12:22-78
+		ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:11:22-78
 application
-ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:13:5-17:19
+ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:12:5-16:19
 	android:label
-		ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:14:9-41
+		ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:13:9-41
 	android:allowBackup
-		ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:13:18-44
+		ADDED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml:12:18-44
 uses-sdk
 INJECTED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/shlomobolotin/Desktop/workspace/TelegramTv3/libtd/src/main/AndroidManifest.xml
