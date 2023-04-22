@@ -1,0 +1,174 @@
+{
+  "name": "connect_default",
+  "version": 32,
+  "source-key": {
+    "type": "figma",
+    "file": "JIAsRcX4KOuFbkpTatSVL4",
+    "node": "26:3",
+    "version": "3046870435",
+    "component-id": "a5c1f7a147f3d33b0825beb573b744b638082f55"
+  },
+  "default": "Connect/Default",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "group",
+        "id": "RequestCodeScan"
+      },
+      {
+        "type": "group",
+        "id": "Frame 2"
+      },
+      {
+        "type": "image",
+        "id": "Rectangle 2"
+      },
+      {
+        "type": "text",
+        "id": "Scan from your telegram app on mobile"
+      }
+    ],
+    "modes": {
+      "Connect/Default": {
+        "rules": [
+          {
+            "id": "top_level",
+            "longpress-handler": "$onLongPress",
+            "is-structured": "false",
+            "children": [
+              "RequestCodeScan"
+            ],
+            "background-color": {
+              "alpha": "1.0",
+              "hue": "0.0",
+              "saturation": "0.5818181818181818",
+              "value": "0.21568627450980393"
+            }
+          },
+          {
+            "id": "RequestCodeScan",
+            "margin": {
+              "left": "138.0",
+              "top": "75.0",
+              "right": "138.0",
+              "bottom": "75.0"
+            },
+            "border-radius": "20.0",
+            "is-structured": "false",
+            "children": [
+              "Frame 2"
+            ],
+            "background-color": {
+              "alpha": "1.0",
+              "hue": "0.0",
+              "saturation": "0.0",
+              "value": "1.0"
+            },
+            "clip-content": "false"
+          },
+          {
+            "id": "Frame 2",
+            "alignment": {
+              "horizontal": {
+                "attachment": "center",
+                "offset": "-0.5"
+              },
+              "vertical": {
+                "attachment": "center",
+                "offset": "0.0"
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "children": [
+              "Rectangle 2",
+              "Scan from your telegram app on mobile"
+            ],
+            "item-spacing": "-14.0",
+            "clip-content": "false"
+          },
+          {
+            "id": "Rectangle 2",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": "250.0"
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": "250.0"
+              }
+            },
+            "image-content": "$qrImage",
+            "scale": "cover"
+          },
+          {
+            "id": "Scan from your telegram app on mobile",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": "463.0"
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": "140.0"
+              }
+            },
+            "font-weight": "700.0",
+            "color": {
+              "alpha": "1.0",
+              "hue": "0.0",
+              "saturation": "0.5818181818181818",
+              "value": "0.21568627450980393"
+            },
+            "text-content": "Scan from your telegram app on mobile",
+            "overflow": "visible",
+            "max-lines": "-1",
+            "text-align-vertical": "center",
+            "text-size": "32.0",
+            "line-height": "1.2102272510528564",
+            "typeface": "Inter"
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {
+    "onLongPress": {
+      "data-type": "void-callback",
+      "required": false,
+      "description": ""
+    },
+    "qrImage": {
+      "data-type": "image",
+      "required": false,
+      "description": ""
+    }
+  },
+  "previews": [
+    {
+      "design": "Connect/Default",
+      "size": {
+        "width": 1280.0,
+        "height": 720.0
+      },
+      "parameters": {
+        "qrImage": "rectangle_2.png"
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}

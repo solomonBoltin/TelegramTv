@@ -1,0 +1,60 @@
+{
+  "name": "frame_6",
+  "version": 32,
+  "source-key": {
+    "type": "figma",
+    "file": "JIAsRcX4KOuFbkpTatSVL4",
+    "node": "128:79",
+    "version": "3046870435",
+    "component-id": "20d8fa709801da62e7c46f12065e3a3e913253d7"
+  },
+  "default": "Frame 6",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      }
+    ],
+    "modes": {
+      "Frame 6": {
+        "rules": [
+          {
+            "id": "top_level",
+            "is-structured": "false",
+            "children": "$Movies",
+            "background-color": {
+              "alpha": "1.0",
+              "hue": "0.0",
+              "saturation": "0.0",
+              "value": "1.0"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {
+    "Movies": {
+      "data-type": "list-item",
+      "required": false,
+      "description": ""
+    }
+  },
+  "previews": [
+    {
+      "design": "Frame 6",
+      "size": {
+        "width": 2086.0,
+        "height": 373.0
+      },
+      "parameters": {
+        "Movies": []
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}
