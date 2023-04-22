@@ -6,6 +6,8 @@ import com.solomonboltin.telegramtv4.tvb.scrappers.interfaces.*
 import com.solomonboltin.telegramtv4.tvb.scrappers.telegram.media.TelegramVideoSource
 import com.solomonboltin.telegramtv4.ui.movie.newMediaItem
 import com.solomonboltin.telegramtv4.vms.ClientVM
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import org.drinkless.td.libcore.telegram.TdApi
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -152,7 +154,18 @@ class TGMovieScrapper(private val clientVm: ClientVM) : MovieScrapperA {
 
     override val movies: List<ScrappedMovie> = emptyList()
 
+    private val chats : Flow<TdApi.Chat> = emptyFlow()
+
+    fun getChats() {
+        val searchChatsQuery = TdApi.SearchChats("", 100)
+        val getChatsQuery = TdApi.LoadChats(null, 800)
+        val chats = clientVm.sendBlocked(getChatsQuery)
+        println(chats)
+        println("end")
+    }
+
     override fun scrapMovies(max: Int, onNewMovie: (ScrappedMovie) -> Unit) {
+        getChats()
         log.info("scrapMovies")
 //        https://t.me/c/1170460328/9004
         val comedyChatId = "-1001494692739"

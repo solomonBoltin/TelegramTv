@@ -2,10 +2,7 @@ package com.solomonboltin.telegramtv4
 
 import android.app.Application
 import com.solomonboltin.telegramtv4.tvb.scrappers.telegram.default.TGMovieScrapper
-import com.solomonboltin.telegramtv4.vms.MovieDashVM
-import com.solomonboltin.telegramtv4.vms.AppVm
-import com.solomonboltin.telegramtv4.vms.ClientVM
-import com.solomonboltin.telegramtv4.vms.FilesVM
+import com.solomonboltin.telegramtv4.vms.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel

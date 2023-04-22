@@ -37,7 +37,8 @@ fun ConnectionUI() {
         is TdApi.AuthorizationStateWaitEncryptionKey -> {
             Text("Waiting for encryption key")
         }
-        is TdApi.AuthorizationStateWaitPhoneNumber -> Text("Wait phone number")
+        is TdApi.AuthorizationStateWaitPhoneNumber ->
+            Text("Wait phone number")
         is TdApi.AuthorizationStateWaitOtherDeviceConfirmation -> {
             authState as TdApi.AuthorizationStateWaitOtherDeviceConfirmation
 

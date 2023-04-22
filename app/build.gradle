@@ -90,6 +90,8 @@ dependencies {
     //Compose Constraintlayout
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.0")
     implementation 'androidx.core:core-ktx:1.7.0'
+
+
     implementation 'androidx.leanback:leanback:1.0.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'com.google.zxing:core:3.4.1'

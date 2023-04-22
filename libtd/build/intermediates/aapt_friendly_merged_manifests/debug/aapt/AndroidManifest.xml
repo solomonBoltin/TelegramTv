@@ -8,9 +8,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.drinkless.td.libcore" >
 
-    <uses-sdk
-        android:minSdkVersion="10"
-        android:targetSdkVersion="33" />
+    <uses-sdk android:minSdkVersion="10" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
