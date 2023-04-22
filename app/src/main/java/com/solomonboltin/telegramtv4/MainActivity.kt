@@ -28,11 +28,19 @@ class MainActivity : AppCompatActivity() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         Log.i("MainActivity", "Key pressed: $keyCode")
         if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-            dashVm.navigateNext()
+            dashVm.navigatePrev()
             return true
         }
         if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-            dashVm.navigatePrev()
+            dashVm.navigateNext()
+            return true
+        }
+        if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+            dashVm.navigatePrevList()
+            return true
+        }
+        if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+            dashVm.navigateNextList()
             return true
         }
         if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {

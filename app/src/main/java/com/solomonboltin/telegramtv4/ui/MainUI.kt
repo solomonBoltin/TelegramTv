@@ -5,12 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
-import com.solomonboltin.telegramtv4.vms.MovieDashVM
 import com.solomonboltin.telegramtv4.ui.connection.ConnectionUI
 import com.solomonboltin.telegramtv4.ui.dash.MovieDashLiveUI
 import com.solomonboltin.telegramtv4.ui.movie.MyContent
 import com.solomonboltin.telegramtv4.vms.ClientVM
 import com.solomonboltin.telegramtv4.vms.FilesVM
+import com.solomonboltin.telegramtv4.vms.MovieDashVM
 import org.drinkless.td.libcore.telegram.TdApi
 import org.koin.androidx.compose.koinViewModel
 
@@ -22,6 +22,7 @@ fun MainUI() {
     val clientVM = koinViewModel<ClientVM>()
     val clientState by clientVM.authState.collectAsState()
 
+
     val filesVM = koinViewModel<FilesVM>()
     val playingMovie by filesVM.playingMovie.collectAsState()
 
@@ -29,6 +30,8 @@ fun MainUI() {
 
 
     val user by clientVM.user.collectAsState()
+
+
 //    val itemsList = (0..5).toList()
 //
 //    LazyRow(){
