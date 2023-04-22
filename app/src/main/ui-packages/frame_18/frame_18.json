@@ -1,0 +1,213 @@
+{
+  "name": "frame_18",
+  "version": 32,
+  "source-key": {
+    "type": "figma",
+    "file": "JIAsRcX4KOuFbkpTatSVL4",
+    "node": "145:282",
+    "version": "3046870435",
+    "component-id": "8215a3b38f88e10475116a5f3db65a9d19411f8e"
+  },
+  "default": "Frame 18",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "group",
+        "id": "Frame 20"
+      },
+      {
+        "type": "group",
+        "id": "Frame 22"
+      },
+      {
+        "type": "group",
+        "id": "Frame 21"
+      },
+      {
+        "type": "group",
+        "id": "Frame 23"
+      },
+      {
+        "type": "group",
+        "id": "Frame 19"
+      },
+      {
+        "type": "group",
+        "id": "Frame 24"
+      }
+    ],
+    "modes": {
+      "Frame 18": {
+        "rules": [
+          {
+            "id": "top_level",
+            "is-structured": "false",
+            "children": [
+              "Frame 20",
+              "Frame 22",
+              "Frame 21",
+              "Frame 23"
+            ],
+            "background-color": {
+              "alpha": "1.0",
+              "hue": "0.0",
+              "saturation": "0.0",
+              "value": "1.0"
+            }
+          },
+          {
+            "id": "Frame 20",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "main-axis-align": "start",
+            "cross-axis-align": "start",
+            "children": [
+              "Frame 19"
+            ],
+            "item-spacing": "10.0"
+          },
+          {
+            "id": "Frame 22",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": "46.0"
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": "665.0"
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "main-axis-align": "start",
+            "cross-axis-align": "start",
+            "children": [
+              "Frame 24"
+            ],
+            "item-spacing": "10.0"
+          },
+          {
+            "id": "Frame 21",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": "46.0"
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": "720.0"
+              }
+            },
+            "is-structured": "false",
+            "background-color": {
+              "alpha": "1.0",
+              "hue": "0.0",
+              "saturation": "0.07017543859649122",
+              "value": "0.4470588235294118"
+            }
+          },
+          {
+            "id": "Frame 23",
+            "alignment": {
+              "horizontal": {
+                "attachment": "start",
+                "offset": "1225.0"
+              },
+              "vertical": {
+                "attachment": "start",
+                "offset": "55.0"
+              }
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": "46.0"
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": "720.0"
+              }
+            },
+            "is-structured": "false",
+            "background-color": {
+              "alpha": "1.0",
+              "hue": "0.0",
+              "saturation": "0.07017543859649122",
+              "value": "0.4470588235294118"
+            }
+          },
+          {
+            "id": "Frame 19",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": "1271.0"
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": "55.0"
+              }
+            },
+            "is-structured": "false",
+            "background-color": {
+              "alpha": "1.0",
+              "hue": "0.0",
+              "saturation": "0.1027397260273973",
+              "value": "0.5725490196078431"
+            }
+          },
+          {
+            "id": "Frame 24",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": "1271.0"
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": "55.0"
+              }
+            },
+            "is-structured": "false",
+            "background-color": {
+              "alpha": "1.0",
+              "hue": "0.0",
+              "saturation": "0.1027397260273973",
+              "value": "0.5725490196078431"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "previews": [
+    {
+      "design": "Frame 18",
+      "size": {
+        "width": 1271.0,
+        "height": 720.0
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}

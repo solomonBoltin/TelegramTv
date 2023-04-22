@@ -1,0 +1,430 @@
+{
+  "name": "navigation",
+  "version": 32,
+  "source-key": {
+    "type": "figma",
+    "file": "JIAsRcX4KOuFbkpTatSVL4",
+    "node": "114:280",
+    "version": "3046870435",
+    "component-id": "9159dfcbae89d8ac1c68bc4a9bded73d0a71a814"
+  },
+  "default": "Navigation",
+  "design": {
+    "atoms": [
+      {
+        "type": "group",
+        "id": "top_level",
+        "root": "true"
+      },
+      {
+        "type": "group",
+        "id": "Logo + Menu"
+      },
+      {
+        "type": "group",
+        "id": "Icons"
+      },
+      {
+        "type": "image",
+        "id": "Logo"
+      },
+      {
+        "type": "group",
+        "id": "Menu Items"
+      },
+      {
+        "type": "text",
+        "id": "Start"
+      },
+      {
+        "type": "text",
+        "id": "Shows"
+      },
+      {
+        "type": "text",
+        "id": "Movies"
+      },
+      {
+        "type": "text",
+        "id": "New"
+      },
+      {
+        "type": "text",
+        "id": "My List"
+      },
+      {
+        "type": "group",
+        "id": "search"
+      },
+      {
+        "type": "group",
+        "id": "bell"
+      },
+      {
+        "type": "vector",
+        "id": "Vector2"
+      },
+      {
+        "type": "vector",
+        "id": "Vector1"
+      },
+      {
+        "type": "vector",
+        "id": "Vector"
+      },
+      {
+        "type": "vector",
+        "id": "Vector3"
+      }
+    ],
+    "modes": {
+      "Navigation": {
+        "rules": [
+          {
+            "id": "top_level",
+            "padding": {
+              "left": "32.0",
+              "top": "16.0",
+              "right": "32.0",
+              "bottom": "16.0"
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": "1.0"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "arrangement": "row",
+            "main-axis-align": "space-between",
+            "children": [
+              "Logo + Menu",
+              "Icons"
+            ],
+            "fills": [
+              {
+                "color": {},
+                "opacity": "1.0",
+                "fill-type": "lineargradient",
+                "blend-mode": "normal",
+                "color-stops": [
+                  {
+                    "color": {
+                      "alpha": "0.4980392156862745",
+                      "hue": "0.0",
+                      "saturation": "0.0",
+                      "value": "0.0784313725490196"
+                    },
+                    "color-stop-position": "0.0"
+                  },
+                  {
+                    "color": {
+                      "alpha": "0.0",
+                      "hue": "0.0",
+                      "saturation": "0.0",
+                      "value": "0.0784313725490196"
+                    },
+                    "color-stop-position": "1.0"
+                  }
+                ],
+                "gradient-handle-positions": [
+                  {
+                    "x": "0.5",
+                    "y": "0.0"
+                  },
+                  {
+                    "x": "0.5",
+                    "y": "1.0"
+                  },
+                  {
+                    "x": "0.0",
+                    "y": "0.0"
+                  }
+                ]
+              }
+            ],
+            "clip-content": "false"
+          },
+          {
+            "id": "Logo + Menu",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "arrangement": "row",
+            "main-axis-align": "start",
+            "children": [
+              "Logo",
+              "Menu Items"
+            ],
+            "item-spacing": "16.0",
+            "clip-content": "false"
+          },
+          {
+            "id": "Icons",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "arrangement": "row",
+            "main-axis-align": "start",
+            "cross-axis-align": "start",
+            "children": [
+              "search",
+              "bell"
+            ],
+            "item-spacing": "24.0",
+            "clip-content": "false"
+          },
+          {
+            "id": "Logo",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": "111.0"
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": "26.0"
+              }
+            },
+            "image-content": "logo.png",
+            "scale": "cover"
+          },
+          {
+            "id": "Menu Items",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "shrink"
+              },
+              "height-constraints": {
+                "sizing-mode": "shrink"
+              }
+            },
+            "arrangement": "row",
+            "main-axis-align": "start",
+            "cross-axis-align": "start",
+            "children": [
+              "Start",
+              "Shows",
+              "Movies",
+              "New",
+              "My List"
+            ],
+            "item-spacing": "16.0",
+            "clip-content": "false"
+          },
+          {
+            "id": "Start",
+            "font-weight": "700.0",
+            "color": {
+              "alpha": "1.0",
+              "hue": "0.0",
+              "saturation": "0.0",
+              "value": "1.0"
+            },
+            "text-content": "Start",
+            "overflow": "visible",
+            "text-align": "left",
+            "line-height": "1.4285714721679688",
+            "typeface": "Open Sans"
+          },
+          {
+            "id": "Shows",
+            "color": {
+              "alpha": "1.0",
+              "hue": "0.0",
+              "saturation": "0.0",
+              "value": "1.0"
+            },
+            "text-content": "Shows",
+            "overflow": "visible",
+            "text-align": "left",
+            "line-height": "1.4285714721679688",
+            "typeface": "Open Sans"
+          },
+          {
+            "id": "Movies",
+            "color": {
+              "alpha": "1.0",
+              "hue": "0.0",
+              "saturation": "0.0",
+              "value": "1.0"
+            },
+            "text-content": "Movies",
+            "overflow": "visible",
+            "text-align": "left",
+            "line-height": "1.4285714721679688",
+            "typeface": "Open Sans"
+          },
+          {
+            "id": "New",
+            "color": {
+              "alpha": "1.0",
+              "hue": "0.0",
+              "saturation": "0.0",
+              "value": "1.0"
+            },
+            "text-content": "New",
+            "overflow": "visible",
+            "text-align": "left",
+            "line-height": "1.4285714721679688",
+            "typeface": "Open Sans"
+          },
+          {
+            "id": "My List",
+            "color": {
+              "alpha": "1.0",
+              "hue": "0.0",
+              "saturation": "0.0",
+              "value": "1.0"
+            },
+            "text-content": "My List",
+            "overflow": "visible",
+            "text-align": "left",
+            "line-height": "1.4285714721679688",
+            "typeface": "Open Sans"
+          },
+          {
+            "id": "search",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": "24.0"
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": "24.0"
+              }
+            },
+            "is-structured": "false",
+            "children": [
+              "Vector2",
+              "Vector1"
+            ]
+          },
+          {
+            "id": "bell",
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "fixed",
+                "value": "24.0"
+              },
+              "height-constraints": {
+                "sizing-mode": "fixed",
+                "value": "24.0"
+              }
+            },
+            "is-structured": "false",
+            "children": [
+              "Vector",
+              "Vector3"
+            ]
+          },
+          {
+            "id": "Vector2",
+            "margin": {
+              "left": "3.0",
+              "top": "3.0",
+              "right": "5.0",
+              "bottom": "5.0"
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": "1.0"
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": "1.0"
+              }
+            },
+            "vector-content": "vector2.svg"
+          },
+          {
+            "id": "Vector1",
+            "margin": {
+              "left": "16.64990234375",
+              "top": "16.649993896484375",
+              "right": "3.0",
+              "bottom": "3.0"
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": "1.0"
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": "1.0"
+              }
+            },
+            "vector-content": "vector1.svg"
+          },
+          {
+            "id": "Vector",
+            "margin": {
+              "left": "3.0",
+              "top": "2.0",
+              "right": "3.0",
+              "bottom": "7.0"
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": "1.0"
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": "1.0"
+              }
+            },
+            "vector-content": "vector.svg"
+          },
+          {
+            "id": "Vector3",
+            "margin": {
+              "left": "10.27001953125",
+              "top": "21.0",
+              "right": "10.27001953125",
+              "bottom": "2.0035400390625"
+            },
+            "size-constraints": {
+              "width-constraints": {
+                "sizing-mode": "proportional",
+                "value": "1.0"
+              },
+              "height-constraints": {
+                "sizing-mode": "proportional",
+                "value": "1.0"
+              }
+            },
+            "vector-content": "vector3.svg"
+          }
+        ]
+      }
+    }
+  },
+  "previews": [
+    {
+      "design": "Navigation",
+      "size": {
+        "width": 1440.0,
+        "height": 58.0
+      }
+    }
+  ],
+  "adin-component-search-paths": [],
+  "image-search-paths": [],
+  "vector-search-paths": []
+}
