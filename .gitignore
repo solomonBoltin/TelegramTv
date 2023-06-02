@@ -16,6 +16,3 @@ local.properties
 /.idea/
 /libtd/build/
 /app/build/
-
-/libtd/build/generated/ap_generated_sources/debug/out/
-/libtd/build/generated/source/buildConfig/debug/
