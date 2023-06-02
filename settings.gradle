@@ -10,16 +10,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url "https://maven.pkg.github.com/mykey-social-network/liveslibrarykmp"
-            credentials {
-                username = "yossefdozli"
-                password = "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"
-            }
-        }
     }
 }
-rootProject.name = "TelegramTv3"
+rootProject.name = "TelegramTv"
 include ':app'
 include ':libtd'
 include ':build.gradle.kts'
