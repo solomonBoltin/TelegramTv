@@ -1,2 +1,0 @@
-org.drinkless.td.libcore
-string app_name
