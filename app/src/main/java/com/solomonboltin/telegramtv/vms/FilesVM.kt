@@ -2,7 +2,7 @@ package com.solomonboltin.telegramtv.vms
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.solomonboltin.telegramtv.tvb.models.Movie
+import com.solomonboltin.telegramtv.data.models.Movie
 import kotlinx.coroutines.flow.*
 import org.drinkless.td.libcore.telegram.TdApi
 import org.drinkless.td.libcore.telegram.TdApi.File
@@ -26,8 +26,6 @@ class FilesVM(private val clientVM: ClientVM) : ViewModel() {
 
     private val files: MutableMap<Int, File> = mutableMapOf()
 
-    private val filesFlow = MutableSharedFlow<File>(2, 3)
-    fun fileFlow(fileId: Int) = filesFlow.filter { it.id == fileId }
     var fileUpdatesLatch : CountDownLatch? = null
 
     private var isConnected = false

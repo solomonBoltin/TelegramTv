@@ -1,4 +1,4 @@
-//
+package com.solomonboltin.telegramtv.vms//
 //
 //
 //enum class PlayingState {

@@ -1,10 +1,10 @@
 package com.solomonboltin.telegramtv.ui.dash.data
 
-import com.solomonboltin.telegramtv.tvb.scrappers.interfaces.ScrappedMovie
+import com.solomonboltin.telegramtv.data.scrappers.interfaces.MovieScrapper
 
 data class DashData(val movieLists: MutableList<MovieList>) {
 
-    data class MovieList(val title: String, val movies: MutableList<ScrappedMovie>) {
+    data class MovieList(val title: String, val movies: MutableList<MovieScrapper>) {
 
         // next movie in the list
         fun nextMovie() {
@@ -16,12 +16,12 @@ data class DashData(val movieLists: MutableList<MovieList>) {
         }
     }
 
-    val selectedMovie: ScrappedMovie?
+    val selectedMovie: MovieScrapper?
         get() {
             return movieLists.getOrNull(0)?.movies?.getOrNull(0)
         }
 
-    fun addMovie(category: String, movie: ScrappedMovie): DashData {
+    fun addMovie(category: String, movie: MovieScrapper): DashData {
         for (i in movieLists.indices) {
             if (movieLists[i].title == category) {
                 movieLists[i].movies.add(movie)

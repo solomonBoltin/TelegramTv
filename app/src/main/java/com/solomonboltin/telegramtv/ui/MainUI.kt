@@ -1,6 +1,7 @@
 package com.solomonboltin.telegramtv.ui
 
 import android.util.Log
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -20,7 +21,9 @@ fun MainUI() {
     Log.i("MainUI", "Starting main ui")
 
     val clientVM = koinViewModel<ClientVM>()
+    val connectionState by clientVM.connectionState.collectAsState()
     val clientState by clientVM.authState.collectAsState()
+
 
 
     val filesVM = koinViewModel<FilesVM>()
@@ -41,21 +44,41 @@ fun MainUI() {
 //        }
 //    }
 
-    when (clientState) {
-        is TdApi.AuthorizationStateReady -> {
-            if (playingMovie == null) {
-                movieDashVM.start()
-                MovieDashLiveUI()
-            } else {
-                println("Paling MyContent ")
-                MyContent(playingMovie!!)
-            }
+    when(connectionState){
+        is TdApi.ConnectionStateConnecting -> {
+            Text(text = "Connecting to telegram")
+        }
+        is TdApi.ConnectionStateReady -> {
+            when (clientState) {
+                is TdApi.AuthorizationStateReady -> {
+                    if (playingMovie == null) {
+                        movieDashVM.start()
+                        MovieDashLiveUI()
+                    } else {
+                        println("Paling MyContent ")
+                        MyContent(playingMovie!!)
+                    }
 
+                }
+                else -> {
+                    ConnectionUI()
+                }
+            }
+        }
+        is TdApi.ConnectionStateConnectingToProxy -> {
+            Text(text = "Connecting to proxy")
+        }
+        is TdApi.ConnectionStateUpdating -> {
+            Text(text = "Updating")
+        }
+        is TdApi.ConnectionStateWaitingForNetwork -> {
+            Text(text = "Waiting for network")
         }
         else -> {
-            ConnectionUI()
+            Text(text = "Unknown connection state $connectionState")
         }
     }
+
 //    MaterialTheme{
 //        RelayContainer{
 //            Text(text = "Hello world" )

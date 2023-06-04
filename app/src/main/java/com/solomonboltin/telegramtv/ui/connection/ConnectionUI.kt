@@ -8,7 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
-import com.solomonboltin.telegramtv.tvb.utils.QrUtils
+import com.solomonboltin.telegramtv.utils.QrUtils
 import com.solomonboltin.telegramtv.vms.ClientVM
 import com.solomonboltin.telegramtv.connect.Connect
 import org.drinkless.td.libcore.telegram.TdApi

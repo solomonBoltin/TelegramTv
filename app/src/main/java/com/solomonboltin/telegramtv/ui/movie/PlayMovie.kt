@@ -21,8 +21,8 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.EventLogger
 import com.google.android.exoplayer2.util.Util
 import com.solomonboltin.telegramtv.BackPressHandler
-import com.solomonboltin.telegramtv.tvb.models.Movie
-import com.solomonboltin.telegramtv.tvb.scrappers.telegram.media.TelegramVideoSource
+import com.solomonboltin.telegramtv.data.models.Movie
+import com.solomonboltin.telegramtv.media.TelegramVideoSource
 import com.solomonboltin.telegramtv.vms.FilesVM
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
