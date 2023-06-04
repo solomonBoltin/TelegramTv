@@ -1,4 +1,4 @@
-package com.solomonboltin.telegramtv.tvb.scrappers.telegram.media
+package com.solomonboltin.telegramtv.media
 
 import android.net.Uri
 import android.util.Log

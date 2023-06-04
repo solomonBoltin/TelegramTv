@@ -3,83 +3,70 @@ package com.solomonboltin.telegramtv.vms
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.solomonboltin.telegramtv.tvb.scrappers.interfaces.ScrappedMovie
-import com.solomonboltin.telegramtv.tvb.scrappers.telegram.default.TGMovieScrapper
+import com.solomonboltin.telegramtv.data.TelegramDataLoader
+import com.solomonboltin.telegramtv.data.scrappers.interfaces.MovieScrapper
 import com.solomonboltin.telegramtv.ui.dash.data.DashData
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
-import org.drinkless.td.libcore.telegram.TdApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 
 
-class MovieDashVM(
-    private val clientVm: ClientVM, private val movieScrapper: TGMovieScrapper,
-) :
-    ViewModel() {
+class MovieDashVM(private val clientVm: ClientVM) : ViewModel() {
     private val log = LoggerFactory.getLogger(MovieDashVM::class.java)
 
     // dashData
     private val _dashData = MutableStateFlow(DashData(mutableListOf()))
     val dashData: StateFlow<DashData> = _dashData.asStateFlow()
 
-    suspend fun loadChat(chatScrapper: ChannelScrapper) = coroutineScope {
-        chatScrapper.moviesFlow().collect() {
-            log.info("ScrappingFlows Movie ${it.info.title}")
-            addMovie(it)
-            println("ScrappingFlows Movie added ${it.info.title}")
-        }
-    }
+    private val telegramDataLoader = TelegramDataLoader(clientVm)
+
 
     fun start() {
-        val tScrapper = TelegramScrapper(clientVm)
+        loadMovies()
+    }
+
+    private fun loadMovies() {
         viewModelScope.launch {
             log.info("ScrappingFlows starting")
-
-//            withContext(Dispatchers.IO) {
-
-                try {
-                    val loadChatsQuery = TdApi.LoadChats(null, 800)
-                    clientVm.client.send(loadChatsQuery){
-                        println("Got results ")
-                    }
-//                    clientVm.client.send(TdApi.ChatListMain("")
-                    tScrapper.chatScrappersFlow().take(2).collect { chatScrapper ->
+            try {
+                clientVm.requestLoadingChats()
+                telegramDataLoader
+                    .chatScrappersFlow()
+                    .take(2)
+                    .collect { chatScrapper ->
                         log.info("ScrappingFlows Chat $chatScrapper")
-//                        val x = loadChat(chatScrapper)
-
-
                         try {
-//                            viewModelScope.launch {
-                                chatScrapper.moviesFlow().take(5).collect() {
+                            chatScrapper
+                                .moviesFlow()
+                                .take(5)
+                                .collect() {
                                     log.info("ScrappingFlows Movie ${it.info.title}")
                                     addMovie(it)
-                                    println("ScrappingFlows Movie added ${it.info.title}")
                                 }
 //                            }
                         } catch (e: Exception) {
-                            log.error("ScrappingFlows movie error ${e.message}", )
+                            log.error("ScrappingFlows movie error ${e.message}")
                             log.error("ScrappingFlows movie error ${e.stackTrace}")
                         }
                     }
 
-                } catch (e: Exception) {
-                    log.error("ScrappingFlows chat error", e)
-                }
-//            }
-
+            } catch (e: Exception) {
+                log.error("ScrappingFlows chat error", e)
+            }
         }
 
-        log.info("start")
-//        viewModelScope.launch {
-//            withContext(Dispatchers.IO) {
-//
-//                movieScrapper.scrapMovies { newMovie ->
-//                    addMovie(newMovie)
-//                }
-//            }
-//
-//        }
-        log.info("start done")
+    }
+
+    private fun addMovie(movie: MovieScrapper) {
+        val tagName = movie.info.tags.firstOrNull() ?: "כל הסרטים"
+        val nDashData = dashData.value.copy().addMovie(tagName, movie)
+
+        log.info("nDashData: $nDashData")
+        updateMovieDash(nDashData)
     }
 
     private fun updateMovieDash(nDash: DashData) {
@@ -89,14 +76,7 @@ class MovieDashVM(
         }
     }
 
-    private fun addMovie(movie: ScrappedMovie) {
-        val tagName = movie.info.tags.firstOrNull() ?: "כל הסרטים"
-        val nDashData = dashData.value.copy().addMovie(tagName, movie)
 
-        log.info("nDashData: $nDashData")
-        updateMovieDash(nDashData)
-
-    }
 
     fun navigateNext() {
         log.info("navigateNext")

@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.solomonboltin.telegramtv.tvb.models.Movie
+import com.solomonboltin.telegramtv.data.models.Movie
 import com.solomonboltin.telegramtv.ui.dash.data.DashData
 import com.solomonboltin.telegramtv.vms.MovieDashVM
 import com.solomonboltin.telegramtv.R

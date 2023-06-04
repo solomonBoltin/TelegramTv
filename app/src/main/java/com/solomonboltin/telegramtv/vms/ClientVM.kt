@@ -12,11 +12,12 @@ import kotlinx.coroutines.launch
 import org.drinkless.td.libcore.telegram.Client
 import org.drinkless.td.libcore.telegram.TdApi
 import org.koin.java.KoinJavaComponent.inject
+import org.slf4j.LoggerFactory
 
 class ChatM(val clientVM: ClientVM, val chat: TdApi.Chat) {
     fun messagesFlow(): Flow<TdApi.Message> {
         println("ScrappingFlows messagesFlow chat: ${chat.title}")
-        return flow  {
+        return flow {
             println("ScrappingFlows messagesFlow flow")
 
             var lastMessageId = 0L
@@ -25,7 +26,7 @@ class ChatM(val clientVM: ClientVM, val chat: TdApi.Chat) {
 
                 getMessages(chat.id, lastMessageId).collect { message ->
                     println("ScrappingFlows messagesFlow flow loop collect")
-                    if( message.content is TdApi.MessageVideo) {
+                    if (message.content is TdApi.MessageVideo) {
                         emit(message)
                     }
                     lastMessageId = message.id
@@ -74,13 +75,15 @@ class ChatM(val clientVM: ClientVM, val chat: TdApi.Chat) {
         }
 
 }
-
 data class Chat(val id: Long, val title: String)
+
+
 class ClientVM : ViewModel() {
+    val log = LoggerFactory.getLogger(ClientVM::class.java)
+
     private val context: Context by inject(Context::class.java)
     lateinit var client: Client
 
-    val log = org.slf4j.LoggerFactory.getLogger(ClientVM::class.java)
 
     val chatPositionFlow = MutableSharedFlow<Long>()
 
@@ -88,7 +91,6 @@ class ClientVM : ViewModel() {
     private var fileUpdatesHandler: (TdApi.File) -> Unit = {
         Log.i("ClientVm", "No handler for file updates")
     }
-
 
 
     fun sendBlocked(ob: TdApi.Function): TdApi.Object? {
@@ -109,8 +111,13 @@ class ClientVM : ViewModel() {
         return response
     }
 
+
     fun setFileUpdatesHandler(handler: (TdApi.File) -> Unit) {
         fileUpdatesHandler = handler
+    }
+
+    fun requestLoadingChats() {
+        sendBlocked(TdApi.LoadChats(null, 800))
     }
 
     private fun handleUpdates(update: TdApi.Object) {
@@ -119,12 +126,19 @@ class ClientVM : ViewModel() {
             is TdApi.UpdateAuthorizationState -> {
                 handleAuthStateUpdate(update.authorizationState)
             }
+
+            is TdApi.UpdateConnectionState -> {
+                updateConnectionState(update.state)
+            }
+
             is TdApi.UpdateUser -> {
                 handleUserUpdate(update.user)
             }
+
             is TdApi.UpdateFile -> {
                 handleFileUpdates(update.file)
             }
+
             is TdApi.UpdateChatPosition -> {
                 viewModelScope.launch {
                     println("ChatPositionUpdate $update")
@@ -134,21 +148,26 @@ class ClientVM : ViewModel() {
                 println("ChatPositionUpdate $update")
 
             }
+
             is TdApi.UpdateChatTitle -> {
                 chats[update.chatId] = Chat(update.chatId, update.title)
             }
-            is TdApi.UpdateUser ->{
+
+            is TdApi.UpdateUser -> {
                 Log.i("UpdateClientVMUser", "Unhandled update: $update")
 
             }
-            is TdApi.Messages ->{
+
+            is TdApi.Messages -> {
                 Log.i("UpdateClientVMUser", "Unhandled update: $update")
 
             }
+
             is TdApi.UpdateNewMessage -> {
                 Log.i("UpdateClientVMUser", "Unhandled update: $update")
 
             }
+
             else -> {
                 Log.i("UpdateClientVM", "Unhandled update: $update")
             }
@@ -167,12 +186,15 @@ class ClientVM : ViewModel() {
             is TdApi.AuthorizationStateWaitTdlibParameters -> {
                 client.send(TdApi.SetTdlibParameters(getTdLibParams(context))) {}
             }
+
             is TdApi.AuthorizationStateWaitEncryptionKey -> {
                 client.send(TdApi.CheckDatabaseEncryptionKey()) {}
             }
+
             is TdApi.AuthorizationStateWaitPhoneNumber -> {
                 client.send(TdApi.RequestQrCodeAuthentication()) {}
             }
+
             is TdApi.AuthorizationStateClosed -> {
                 restartClient()
             }
@@ -231,8 +253,8 @@ class ClientVM : ViewModel() {
     }
 
     fun chatsFlow() = chatPositionFlow.flatMapConcat {
-            log.info("ChatFromFlow: getting chat $it")
-        getChat(it).take(1).map {chat ->
+        log.info("ChatFromFlow: getting chat $it")
+        getChat(it).take(1).map { chat ->
             ChatM(this, chat)
         }
     }
@@ -241,9 +263,12 @@ class ClientVM : ViewModel() {
 //        }
 
 
+    private var _connectionState = MutableStateFlow<TdApi.ConnectionState?>(null)
+    val connectionState: StateFlow<TdApi.ConnectionState?> = _connectionState.asStateFlow()
 
-
-
+    fun updateConnectionState(connectionStateUpdate: TdApi.ConnectionState) {
+        _connectionState.update { connectionStateUpdate }
+    }
 
 
     val chatsFlow = MutableSharedFlow<Chat>()
@@ -268,10 +293,6 @@ class ClientVM : ViewModel() {
     //  channels() -> list<chats>
     //  searchChatByTitle()
     //
-
-
-
-
 
 
     init {

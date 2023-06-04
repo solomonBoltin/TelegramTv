@@ -1,7 +1,6 @@
 package com.solomonboltin.telegramtv
 
 import android.app.Application
-import com.solomonboltin.telegramtv.tvb.scrappers.telegram.default.TGMovieScrapper
 import com.solomonboltin.telegramtv.vms.*
 import org.koin.android.BuildConfig
 import org.koin.android.ext.koin.androidContext
@@ -13,12 +12,10 @@ import org.koin.dsl.module
 
 class App : Application() {
     private val koinModule = module {
-        single { AppVm() }
         single { ClientVM() }
         single { FilesVM(get()) }
         single { resources }
-        single { TGMovieScrapper(get()) }
-        single { MovieDashVM(get(), get()) }
+        single { MovieDashVM(get()) }
 //        viewModel { MovieMachineVM(get()) }
 
     }

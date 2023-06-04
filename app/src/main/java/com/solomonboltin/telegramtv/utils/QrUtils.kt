@@ -1,4 +1,4 @@
-package com.solomonboltin.telegramtv.tvb.utils
+package com.solomonboltin.telegramtv.utils
 
 // function for generating qrcode bitmap from string
 
