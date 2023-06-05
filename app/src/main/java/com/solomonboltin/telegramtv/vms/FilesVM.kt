@@ -2,8 +2,10 @@ package com.solomonboltin.telegramtv.vms
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.solomonboltin.telegramtv.data.models.MovieDa
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import org.drinkless.td.libcore.telegram.TdApi
 import org.drinkless.td.libcore.telegram.TdApi.File
 import org.slf4j.Logger
@@ -20,16 +22,33 @@ class FilesVM(private val clientVM: ClientVM) : ViewModel() {
     fun setMovie(movieDa: MovieDa) {
         _playingMovieDa.update { movieDa }
     }
-    fun stopPlayingMovie() {
+    fun unsetMovie() {
         _playingMovieDa.update { null }
     }
+
+    val filesUpdateFlow: MutableSharedFlow<File> = MutableSharedFlow()
+//    val filesUpdateFlow = _filesUpdateFlow.asSharedFlow()
+
+    private fun emitFileUpdate(file: File) {
+        println("FilesVM: emitFileUpdate: ${file.id}")
+
+        viewModelScope.launch {
+            filesUpdateFlow.emit(file)
+        }
+    }
+
+
+
 
     private val files: MutableMap<Int, File> = mutableMapOf()
 
     var fileUpdatesLatch : CountDownLatch? = null
 
     private var isConnected = false
+
+
     var filesHandler = { it: File ->
+        emitFileUpdate(it)
         files[it.id] = it
         if (fileUpdatesLatch != null) {
             fileUpdatesLatch!!.countDown()

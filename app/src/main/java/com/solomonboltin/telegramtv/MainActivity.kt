@@ -8,11 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.solomonboltin.telegramtv.ui.MainUI
 import com.solomonboltin.telegramtv.vms.FilesVM
 import com.solomonboltin.telegramtv.vms.MovieDashVM
+import com.solomonboltin.telegramtv.vms.PlayerVM
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
     private val dashVm : MovieDashVM by inject()
     private val filesVM : FilesVM by inject()
+    private val playerVM : PlayerVM by inject()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         }
         if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
             val movie = dashVm.dashData.value.selectedMovie
-            if (movie != null) filesVM.setMovie(movie.toMovieDa())
+            if (movie != null) playerVM.playMovieS(movie.toMovieDa())
             return true
         }
         return super.onKeyDown(keyCode, event)

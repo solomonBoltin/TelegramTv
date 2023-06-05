@@ -1,7 +1,14 @@
 package com.solomonboltin.telegramtv
 
 import android.app.Application
+import android.util.Log
 import androidx.room.Room
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.MediaMetadata
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.metadata.Metadata
+import com.google.android.exoplayer2.util.EventLogger
 import com.solomonboltin.telegramtv.data.models.MyDatabase
 import com.solomonboltin.telegramtv.vms.*
 import org.koin.android.BuildConfig
@@ -22,6 +29,7 @@ class App : Application() {
         single { FilesVM(get()) }
         single { resources }
         single { MovieDashVM(get(), get()) }
+        single { PlayerVM(get(), get()) }
 //        viewModel { MovieMachineVM(get()) }
 
     }
@@ -38,7 +46,35 @@ class App : Application() {
                 "my-database-name"
             ).build()
 
+            val exoPlayer = ExoPlayer.Builder(applicationContext).build().apply {
+                addAnalyticsListener(EventLogger(null))
+                addListener(object : Player.Listener {
+                    override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                        super.onMediaItemTransition(mediaItem, reason)
+                        println("EGL_emulation: onMediaItemTransition. mediaItem = ${mediaItem!!.mediaMetadata.toBundle()}, reason = $reason")
+                    }
+
+                    override fun onMetadata(metadata: Metadata) {
+                        super.onMetadata(metadata)
+                        println("EGL_emulation: onMetadata = $metadata")
+                    }
+
+                    override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
+                        super.onMediaMetadataChanged(mediaMetadata)
+                        Log.i(
+                            "EGL_emulation",
+                            "onMediaMetadataChanged: mediaMetadata = $mediaMetadata"
+                        )
+                    }
+                })
+
+                playWhenReady = true
+                prepare()
+
+            }
+
             koinModule.single { db }
+            koinModule.single { exoPlayer }
             modules(koinModule)
         }
         super.onCreate()

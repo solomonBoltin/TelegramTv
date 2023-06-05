@@ -28,7 +28,10 @@ data class MovieDa(
     val poster1: String? = null,
 
     val tags: List<String> = emptyList(),
-)
+){
+    val fileId: Int
+        get() = scrapedMovie.files.getDefaultVideo()?.video?.video?.id ?: 0
+}
 
 
 @Entity
