@@ -21,7 +21,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.EventLogger
 import com.google.android.exoplayer2.util.Util
 import com.solomonboltin.telegramtv.BackPressHandler
-import com.solomonboltin.telegramtv.data.models.Movie
+import com.solomonboltin.telegramtv.data.models.MovieDa
 import com.solomonboltin.telegramtv.media.TelegramVideoSource
 import com.solomonboltin.telegramtv.vms.FilesVM
 import kotlinx.coroutines.delay
@@ -29,7 +29,7 @@ import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun PlayMovieUI(movie: Movie) {
+fun PlayMovieUI(movieDa: MovieDa) {
     val filesVM = koinViewModel<FilesVM>()
     val context = LocalContext.current
 //
@@ -90,7 +90,7 @@ fun PlayMovieUI(movie: Movie) {
 }
 
 @Composable
-fun MyContent(movie: Movie) {
+fun MyContent(movieDa: MovieDa) {
     val filesVM = koinViewModel<FilesVM>()
 
 
@@ -134,7 +134,7 @@ fun MyContent(movie: Movie) {
     }
 
     val mediaSourceFactory = ProgressiveMediaSource.Factory(TelegramVideoSource.Factory(filesVM))
-    val mediaSource = mediaSourceFactory.createMediaSource(movie.file!!)
+    val mediaSource = mediaSourceFactory.createMediaSource(movieDa.file!!)
 
 
     BackPressHandler(onBackPressed = {
@@ -158,7 +158,7 @@ fun MyContent(movie: Movie) {
 
 
     // preload media file
-    val fileId = movie.scrapedMovie.files.getDefaultVideo()!!.video.video.id
+    val fileId = movieDa.scrapedMovie.files.getDefaultVideo()!!.video.video.id
     filesVM.seekFileOffset(fileId)
     println("TGBF Seeking file $fileId")
 

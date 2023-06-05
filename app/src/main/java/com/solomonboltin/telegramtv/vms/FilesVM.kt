@@ -2,7 +2,7 @@ package com.solomonboltin.telegramtv.vms
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.solomonboltin.telegramtv.data.models.Movie
+import com.solomonboltin.telegramtv.data.models.MovieDa
 import kotlinx.coroutines.flow.*
 import org.drinkless.td.libcore.telegram.TdApi
 import org.drinkless.td.libcore.telegram.TdApi.File
@@ -14,14 +14,14 @@ import java.util.concurrent.CountDownLatch
 class FilesVM(private val clientVM: ClientVM) : ViewModel() {
     private val log: Logger = LoggerFactory.getLogger(FilesVM::class.java)
 
-    private val _playingMovie = MutableStateFlow<Movie?>(null)
-    val playingMovie = _playingMovie.asStateFlow()
+    private val _playingMovieDa = MutableStateFlow<MovieDa?>(null)
+    val playingMovie = _playingMovieDa.asStateFlow()
 
-    fun setMovie(movie: Movie) {
-        _playingMovie.update { movie }
+    fun setMovie(movieDa: MovieDa) {
+        _playingMovieDa.update { movieDa }
     }
     fun stopPlayingMovie() {
-        _playingMovie.update { null }
+        _playingMovieDa.update { null }
     }
 
     private val files: MutableMap<Int, File> = mutableMapOf()

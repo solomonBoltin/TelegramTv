@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.relay") version "0.3.02"
+    kotlin("kapt")
 }
 
 android {
@@ -45,7 +46,7 @@ android {
 dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.tv:tv-foundation:1.0.0-alpha03")
-
+    implementation("androidx.room:room-common:2.5.1")
     val composeBom = platform("androidx.compose:compose-bom:2022.12.00")
     implementation(composeBom)
     androidTestImplementation(composeBom)
@@ -106,4 +107,8 @@ dependencies {
     implementation("org.slf4j:slf4j-android:1.7.30")
 
     implementation("com.google.android.exoplayer:exoplayer:2.18.6")
+    implementation ("androidx.room:room-runtime:2.5.1")
+    implementation("androidx.room:room-ktx:2.5.1")
+
+    kapt ("androidx.room:room-compiler:2.5.1")
 }
