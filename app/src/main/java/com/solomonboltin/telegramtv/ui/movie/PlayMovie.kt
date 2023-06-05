@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +18,7 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.metadata.Metadata
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.EventLogger
 import com.google.android.exoplayer2.util.Util
@@ -24,7 +26,10 @@ import com.solomonboltin.telegramtv.BackPressHandler
 import com.solomonboltin.telegramtv.data.models.MovieDa
 import com.solomonboltin.telegramtv.media.TelegramVideoSource
 import com.solomonboltin.telegramtv.vms.FilesVM
+import com.solomonboltin.telegramtv.vms.PlayerVM
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import org.koin.androidx.compose.getKoin
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -92,7 +97,10 @@ fun PlayMovieUI(movieDa: MovieDa) {
 @Composable
 fun MyContent(movieDa: MovieDa) {
     val filesVM = koinViewModel<FilesVM>()
+    val playerVM = koinViewModel<PlayerVM>()
 
+    val playingState by playerVM.playingState.collectAsState()
+    val playingFileState by playerVM.playingFile.collectAsState()
 
 //
 //    filesVM.seekFileOffset(movie.file.id)
@@ -103,45 +111,19 @@ fun MyContent(movieDa: MovieDa) {
     // Declaring ExoPlayer
     // Fetching the Local Context
 
-
+    val exoPlayer: ExoPlayer = getKoin().get()
     val mContext = LocalContext.current
 
-
-    val mExoPlayer = remember(mContext) {
-        ExoPlayer.Builder(mContext).build().apply {
-            addAnalyticsListener(EventLogger(null))
-            addListener(object : Player.Listener {
-                override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-                    super.onMediaItemTransition(mediaItem, reason)
-                    println("EGL_emulation: onMediaItemTransition. mediaItem = ${mediaItem!!.mediaMetadata.toBundle()}, reason = $reason")
-                }
-
-                override fun onMetadata(metadata: Metadata) {
-                    super.onMetadata(metadata)
-                    println("EGL_emulation: onMetadata = $metadata")
-                }
-
-                override fun onMediaMetadataChanged(mediaMetadata: MediaMetadata) {
-                    super.onMediaMetadataChanged(mediaMetadata)
-                    Log.i("EGL_emulation", "onMediaMetadataChanged: mediaMetadata = $mediaMetadata")
-                }
-            })
-
-            playWhenReady = true
-            prepare()
-
-        }
-    }
 
     val mediaSourceFactory = ProgressiveMediaSource.Factory(TelegramVideoSource.Factory(filesVM))
     val mediaSource = mediaSourceFactory.createMediaSource(movieDa.file!!)
 
 
     BackPressHandler(onBackPressed = {
-        mExoPlayer.release()
-        filesVM.stopPlayingMovie()
-    }
-    )
+        playerVM.unsetMovie()
+        exoPlayer.release()
+    })
+
 
     Column(
         Modifier.fillMaxSize(),
@@ -149,24 +131,25 @@ fun MyContent(movieDa: MovieDa) {
         verticalArrangement = Arrangement.Center
     ) {
         // Implementing ExoPlayer
+        Text("PlayingState: $playingState, PlayingFileState: ${playingFileState?.local?.downloadedSize} / ${playingFileState?.size}")
+
         AndroidView(factory = { context ->
-            PlayerView(context).apply {
-                player = mExoPlayer
-            }
+            StyledPlayerView(context)
+                .apply { player = exoPlayer }
         })
     }
 
 
     // preload media file
-    val fileId = movieDa.scrapedMovie.files.getDefaultVideo()!!.video.video.id
-    filesVM.seekFileOffset(fileId)
-    println("TGBF Seeking file $fileId")
-
-    LaunchedEffect(key1 = Unit) {
-        delay(10000)
-        mExoPlayer.setMediaSource(mediaSource)
-    }
-    // set media file
+//    val fileId = movieDa.scrapedMovie.files.getDefaultVideo()!!.video.video.id
+//    filesVM.seekFileOffset(fileId)
+//    println("TGBF Seeking file $fileId")
+//
+//    LaunchedEffect(key1 = Unit) {
+//        delay(10000)
+//        exoPlayer.setMediaSource(mediaSource)
+//    }
+//    // set media file
 
 
 }

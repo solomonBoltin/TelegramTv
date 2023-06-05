@@ -12,6 +12,7 @@ import com.solomonboltin.telegramtv.ui.movie.MyContent
 import com.solomonboltin.telegramtv.vms.ClientVM
 import com.solomonboltin.telegramtv.vms.FilesVM
 import com.solomonboltin.telegramtv.vms.MovieDashVM
+import com.solomonboltin.telegramtv.vms.PlayerVM
 import org.drinkless.td.libcore.telegram.TdApi
 import org.koin.androidx.compose.koinViewModel
 
@@ -27,7 +28,9 @@ fun MainUI() {
 
 
     val filesVM = koinViewModel<FilesVM>()
-    val playingMovie by filesVM.playingMovie.collectAsState()
+    val playerVM = koinViewModel<PlayerVM>()
+
+    val playingMovie by playerVM.playingMovie.collectAsState()
 
     val movieDashVM = koinViewModel<MovieDashVM>()
 
