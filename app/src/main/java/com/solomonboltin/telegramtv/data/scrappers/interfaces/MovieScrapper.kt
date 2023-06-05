@@ -3,9 +3,11 @@ package com.solomonboltin.telegramtv.data.scrappers.interfaces
 import androidx.compose.ui.graphics.ImageBitmap
 import com.google.android.exoplayer2.MediaItem
 import com.solomonboltin.telegramtv.data.models.Movie
+import com.solomonboltin.telegramtv.data.models.MovieDa
 import com.solomonboltin.telegramtv.media.TelegramVideoSource
 import com.solomonboltin.telegramtv.ui.movie.newMediaItem
 import org.drinkless.td.libcore.telegram.TdApi
+import java.util.UUID
 
 interface MovieInfoScrapper {
     val title: String?
@@ -42,8 +44,9 @@ interface MovieScrapper {
 
     val isValidMovie get() = info.hasInfo && images.hasImages && files.hasFiles
 
-    fun toMovie(): Movie {
-        return Movie(
+    fun toMovieDa(): MovieDa {
+        return MovieDa(
+            id = UUID.randomUUID().toString(),
             scrapedMovie = this,
             title = info.title ?: "",
             year = info.year ?: "",
@@ -52,6 +55,14 @@ interface MovieScrapper {
             tags = info.tags,
             poster1 = images.getPoster1(),
             file = files.getDefaultMediaItem()
+        )
+    }
+
+    fun toMovie(): Movie {
+        return Movie(
+            id = UUID.randomUUID().toString(),
+            title = info.title ?: "",
+            fileId = files.getDefaultVideo()?.video?.video?.id ?: 0
         )
     }
 
