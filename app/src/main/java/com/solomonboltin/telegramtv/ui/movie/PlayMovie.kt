@@ -1,34 +1,30 @@
 package com.solomonboltin.telegramtv.ui.movie
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.MediaMetadata
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.metadata.Metadata
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.util.EventLogger
 import com.google.android.exoplayer2.util.Util
 import com.solomonboltin.telegramtv.BackPressHandler
 import com.solomonboltin.telegramtv.data.models.MovieDa
 import com.solomonboltin.telegramtv.media.TelegramVideoSource
 import com.solomonboltin.telegramtv.vms.FilesVM
 import com.solomonboltin.telegramtv.vms.PlayerVM
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getKoin
 import org.koin.androidx.compose.koinViewModel
 
@@ -121,7 +117,6 @@ fun MyContent(movieDa: MovieDa) {
 
     BackPressHandler(onBackPressed = {
         playerVM.unsetMovie()
-        exoPlayer.release()
     })
 
 
