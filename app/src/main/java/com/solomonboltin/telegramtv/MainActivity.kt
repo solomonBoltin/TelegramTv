@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         }
         if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
             val movie = dashVm.dashData.value.selectedMovie
-            if (movie != null) playerVM.playMovieS(movie.toMovieDa())
+            if (movie != null) playerVM.setMovie(movie.toMovieDa())
             return true
         }
         return super.onKeyDown(keyCode, event)
