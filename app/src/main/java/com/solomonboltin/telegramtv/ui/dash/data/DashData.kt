@@ -2,17 +2,24 @@ package com.solomonboltin.telegramtv.ui.dash.data
 
 import com.solomonboltin.telegramtv.data.scrappers.interfaces.MovieScrapper
 
-data class DashData(val movieLists: MutableList<MovieList>) {
+data class DashData(val movieLists: MutableList<MovieList>, var selectedListIndex: Int = 0,
+    ) {
 
-    data class MovieList(val title: String, val movies: MutableList<MovieScrapper>) {
+
+    data class MovieList(
+        val title: String,
+        val movies: MutableList<MovieScrapper>,
+        val chatId: Long = 0L,
+        var selectedMovieIndex: Int = 0,
+    ) {
 
         // next movie in the list
-        fun nextMovie() {
-            movies.add(movies.removeAt(0))
+        fun selectNextMovie() {
+            this.selectedMovieIndex = minOf(selectedMovieIndex + 1, movies.size - 1)
         }
 
-        fun previousMovie() {
-            movies.add(0, movies.removeAt(movies.size - 1))
+        fun selectPreviousMovie() {
+            this.selectedMovieIndex = maxOf(0, selectedMovieIndex - 1)
         }
     }
 
@@ -21,40 +28,25 @@ data class DashData(val movieLists: MutableList<MovieList>) {
             return movieLists.getOrNull(0)?.movies?.getOrNull(0)
         }
 
-    fun addMovie(category: String, movie: MovieScrapper): DashData {
+    fun addMovie(chatId: Long, movie: MovieScrapper): DashData {
         for (i in movieLists.indices) {
-            if (movieLists[i].title == category) {
+            if (movieLists[i].chatId == chatId) {
                 movieLists[i].movies.add(movie)
                 return this
             }
         }
-        movieLists.add(MovieList(category, mutableListOf(movie)))
+        movieLists.add(MovieList("Chat: $chatId", mutableListOf(movie), chatId))
         return this
     }
 
-    fun nextMovie(): DashData {
-        movieLists.getOrNull(0)?.nextMovie()
-        return this
+
+    fun getMovieList(chatId: Long): MovieList? {
+        return movieLists.find { it.chatId == chatId }
     }
 
-    // return copy of DashData. if there is first row and first movie it will append the last movie to the beginning of the list and remove the last movie
-    fun previousMovie(): DashData {
-        movieLists.getOrNull(0)?.previousMovie()
-        return this
-    }
-
-    fun nextList(): DashData {
-        movieLists.add(movieLists.removeAt(0))
-        return this
-    }
-
-    fun previousList(): DashData {
-        movieLists.add(0, movieLists.removeAt(movieLists.size - 1))
-        return this
-    }
 
     fun copy(): DashData {
-        return DashData(movieLists.map { MovieList(it.title, it.movies.toMutableList()) }
-            .toMutableList())
+        return DashData(movieLists.map { MovieList(it.title, it.movies.toMutableList(), it.chatId, it.selectedMovieIndex)}
+            .toMutableList(), selectedListIndex)
     }
 }

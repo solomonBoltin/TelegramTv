@@ -3,7 +3,6 @@ package com.solomonboltin.telegramtv.ui.connection
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -13,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.tv.material3.Text
 import com.solomonboltin.telegramtv.vms.ClientVM
 import com.solomonboltin.telegramtv.utils.QrUtils
 import org.drinkless.td.libcore.telegram.TdApi

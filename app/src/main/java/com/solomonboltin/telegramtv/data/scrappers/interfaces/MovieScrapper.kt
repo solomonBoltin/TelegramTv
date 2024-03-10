@@ -41,6 +41,7 @@ interface MovieScrapper {
     val info: MovieInfoScrapper
     val images: MovieImagesScrapper
     val files: MovieFilesScrapper
+    val chatId: Long
 
     val isValidMovie get() = info.hasInfo && images.hasImages && files.hasFiles
 

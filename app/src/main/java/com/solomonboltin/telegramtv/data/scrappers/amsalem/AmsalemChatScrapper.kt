@@ -10,6 +10,7 @@ import com.solomonboltin.telegramtv.vms.ChatM
 import com.solomonboltin.telegramtv.vms.ClientVM
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 
 import org.drinkless.td.libcore.telegram.TdApi
@@ -29,23 +30,34 @@ import org.drinkless.td.libcore.telegram.TdApi
 //
 
 
-class AmsalemChatScrapper(private val clientVM: ClientVM,private val chat: ChatM) : ChatScrapper {
+class AmsalemChatScrapper(private val clientVM: ClientVM, private val chat: ChatM) : ChatScrapper {
+
+    override val chatId: Long = chat.chat.id
+
     override fun isValidChat(): Boolean {
         val chat = clientVM.sendBlocked(TdApi.GetChat(chat.chat.id)) as TdApi.Chat
         return chat.title.lowercase().contains("amsalem")
     }
 
+    override fun messagesFlow(): Flow<TdApi.Message> {
+        return chat.messagesFlow()
+    }
+
+    override fun scrapMovie(message: TdApi.Message): MovieScrapper? {
+        return AmsalemMovieScrapper(clientVM, message, message.chatId)
+            .let { if (it.isValidMovie) it else null }
+    }
+
     override fun moviesFlow(): Flow<MovieScrapper> {
         return chat.messagesFlow().map {
             println("ScrappingFlows Mapping message to movie")
-            AmsalemMovieScrapper(clientVM, it)
-        }.filter {
-            it.isValidMovie
-        }
+            scrapMovie(it)
+        }.filterNotNull()
     }
 }
 
-class AmsalemMovieScrapper(private val clientVM: ClientVM, message: TdApi.Message) : MovieScrapper {
+class AmsalemMovieScrapper(private val clientVM: ClientVM, message: TdApi.Message, override val chatId: Long
+) : MovieScrapper {
     private val originalMessage = message
 
     private val imageMessage = getMessageBefore(3)
@@ -60,14 +72,14 @@ class AmsalemMovieScrapper(private val clientVM: ClientVM, message: TdApi.Messag
 
 
     private fun getMessageBefore(bX: Int = 1): TdApi.Message? {
-        val beforeId = messageDetails.messageId - (1048576 * bX )
-        return  getMessage(beforeId)
+        val beforeId = messageDetails.messageId - (1048576 * bX)
+        return getMessage(beforeId)
 
     }
 
     private fun getMessageAfter(aX: Int = 1): TdApi.Message? {
-        val afterId = messageDetails.messageId + (1048576 * aX )
-        return  getMessage(afterId)
+        val afterId = messageDetails.messageId + (1048576 * aX)
+        return getMessage(afterId)
     }
 
     private fun getMessage(messageId: Long): TdApi.Message? {
@@ -98,7 +110,10 @@ class AmsalemMovieInfoScrapper(private val infoMessage: TdApi.Message?) : MovieI
     override val tags = genreRegex.find(text)?.value?.split(", ") ?: emptyList()
 }
 
-class AmsalemMoviePosterScrapper(private val clientVm: ClientVM, private val imageMessage: TdApi.Message?) :
+class AmsalemMoviePosterScrapper(
+    private val clientVm: ClientVM,
+    private val imageMessage: TdApi.Message?
+) :
     MovieImagesScrapper {
     override fun getPoster1(): String? {
         if (imageMessage?.content is TdApi.MessagePhoto) {

@@ -13,8 +13,10 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import org.drinkless.td.libcore.telegram.TdApi
 
-class DefaultChatScrapper(private val clientVM: ClientVM, private val chat: ChatM) :
-    ChatScrapper {
+class DefaultChatScrapper(private val clientVM: ClientVM, private val chat: ChatM) : ChatScrapper {
+
+    override val chatId: Long = chat.chat.id
+
     override fun isValidChat(): Boolean {
         val chat = clientVM.sendBlocked(TdApi.GetChat(chat.chat.id)) as TdApi.Chat
 //        return chat.title.lowercase().contains("tvb")
@@ -26,12 +28,25 @@ class DefaultChatScrapper(private val clientVM: ClientVM, private val chat: Chat
         return chat
             .messagesFlow()
             .filter { it.content is TdApi.MessageVideo }
-            .map { DefaultMovieScrapper(clientVM, it) }
+            .map { DefaultMovieScrapper(clientVM, it, it.chatId) }
             .filter { it.isValidMovie }
+    }
+
+    override fun messagesFlow(): Flow<TdApi.Message> {
+        return chat.messagesFlow()
+    }
+
+    override fun scrapMovie(message: TdApi.Message): MovieScrapper? {
+        if (message.content !is TdApi.MessageVideo) return null
+
+        return DefaultMovieScrapper(clientVM, message, message.chatId)
+            .let { if (it.isValidMovie) it else null }
     }
 }
 
-class DefaultMovieScrapper(private val clientVm: ClientVM, videoMessage: TdApi.Message) :
+class DefaultMovieScrapper(private val clientVm: ClientVM, videoMessage: TdApi.Message,
+                           override val chatId: Long
+) :
     MovieScrapper {
 
     override val info: MovieInfoScrapper = DefaultMovieInfoScrapper(videoMessage)

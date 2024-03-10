@@ -30,6 +30,8 @@ class App : Application() {
         single { resources }
         single { MovieDashVM(get(), get()) }
         single { PlayerVM(get(), get()) }
+        single { Scratches() }
+        single { AppVM() }
 //        viewModel { MovieMachineVM(get()) }
 
     }

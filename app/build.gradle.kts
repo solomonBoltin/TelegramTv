@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.solomonboltin.telegramtv"
-        minSdk = 26
+        minSdk = 21
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -35,58 +35,69 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.0"
+        kotlinCompilerExtensionVersion = "1.4.2"
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.tv:tv-foundation:1.0.0-alpha03")
+
+    // UI
+    implementation("androidx.core:core-ktx:1.10.1")
+    implementation( platform("androidx.compose:compose-bom:2023.01.00"))
+    implementation("androidx.compose.ui:ui-tooling")
+
+    // Compose integration with activities
+    implementation( "androidx.activity:activity-compose:1.7.2")
+
+    // TV Compose
+    val tv_compose_version = "1.0.0-alpha07"
+    implementation( "androidx.tv:tv-foundation:$tv_compose_version")
+    implementation ("androidx.tv:tv-material:$tv_compose_version")
+
+    // view model
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    // navigation
+    implementation ("androidx.navigation:navigation-compose:2.5.3")
+    // async image loading
+    implementation ("io.coil-kt:coil-compose:2.2.2")
+
+
+    // DB
     implementation("androidx.room:room-common:2.5.1")
-    val composeBom = platform("androidx.compose:compose-bom:2022.12.00")
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
 
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-
+    // Other
     implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("androidx.appcompat:appcompat-resources:1.5.1")
     implementation("com.google.accompanist:accompanist-appcompat-theme:0.25.1")
-    val compose_version = "1.3.0"
+    implementation("androidx.leanback:leanback:1.0.0")
 
-    implementation("androidx.compose.animation:animation-core:$compose_version")
-    implementation("androidx.compose.animation:animation:$compose_version")
-    implementation("androidx.compose.ui:ui:$compose_version")
-    implementation("androidx.compose.foundation:foundation:$compose_version")
-    implementation("androidx.compose.foundation:foundation-layout:$compose_version")
-    implementation("androidx.compose.ui:ui-geometry:$compose_version")
-    implementation("androidx.compose.ui:ui-graphics:$compose_version")
-    implementation("androidx.compose.foundation:foundation-layout:$compose_version")
-    implementation("androidx.compose.runtime:runtime-livedata:$compose_version")
+//    implementation("androidx.compose.material3:material3")
+//    implementation("androidx.compose.ui:ui-tooling-preview")
+//    debugImplementation("androidx.compose.ui:ui-tooling")
+
+
+    // relay
+    val compose_version = "1.4.2"
     implementation("androidx.compose.material:material:$compose_version")
     implementation("androidx.compose.material:material-icons-core:$compose_version")
     implementation("androidx.compose.material:material-icons-extended:$compose_version")
-    implementation("androidx.compose.runtime:runtime-rxjava2:$compose_version")
-    implementation("androidx.compose.ui:ui-text:$compose_version")
-    implementation("androidx.compose.ui:ui-util:$compose_version")
-    implementation("androidx.compose.ui:ui-viewbinding:$compose_version")
-    implementation("androidx.compose.ui:ui-tooling:$compose_version")
-    implementation("androidx.activity:activity-compose:1.3.1")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.3.2")
 
-    implementation("androidx.compose.ui:ui-tooling-preview:1.3.2")
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.0")
-    implementation("androidx.core:core-ktx:1.7.0")
 
-    implementation("androidx.leanback:leanback:1.0.0")
+
     implementation("com.google.zxing:core:3.4.1")
-    implementation("androidx.core:core-ktx:1.9.0")
+//    implementation("androidx.core:core-ktx:1.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 
     implementation("io.coil-kt:coil-compose:2.2.2")

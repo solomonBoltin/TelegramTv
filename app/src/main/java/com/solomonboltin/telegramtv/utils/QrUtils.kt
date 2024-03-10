@@ -20,10 +20,19 @@ object QrUtils {
 
     // fun that takes in x,y, mx, my, and returns colorfull colors based on x,y scales between green red and blue in RGB format
     private fun getPixelColor(x: Int, y: Int, mx: Int, my: Int): Int {
-//        random int between 100-200
-        val sp1 = (150..255).random()
-        val sp2 = (150..255).random()
-        val sp3 = (150..255).random()
+
+        // telegram dark blue color
+        val telegramDarkBlue = Color.rgb(0, 136, 204)
+        // telegram light blue color
+        val telegramLightBlue = Color.rgb(0, 168, 255)
+        val sp1 = 1
+        val sp2 = 136
+        val sp3 = 204
+
+        // random int between 100-200
+//        val sp1 = (150..255).random()
+//        val sp2 = (150..255).random()
+//        val sp3 = (150..255).random()
 
 
         val r = (sp1 * x / mx).toInt()

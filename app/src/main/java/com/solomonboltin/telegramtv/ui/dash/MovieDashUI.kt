@@ -1,11 +1,16 @@
+@file:OptIn(ExperimentalTvMaterial3Api::class)
+
 package com.solomonboltin.telegramtv.ui.dash
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,23 +23,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material.icons.outlined.ThumbDown
 import androidx.compose.material.icons.outlined.ThumbUp
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -48,13 +54,26 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.tv.foundation.lazy.list.TvLazyColumn
+import androidx.tv.foundation.lazy.list.TvLazyListState
+import androidx.tv.foundation.lazy.list.TvLazyRow
+import androidx.tv.foundation.lazy.list.rememberTvLazyListState
+import androidx.tv.material3.Card
+import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.MaterialTheme
+import androidx.tv.material3.OutlinedButton
+import androidx.tv.material3.Text
 import coil.compose.AsyncImage
 import com.google.relay.compose.BoxScopeInstanceImpl.align
 import com.solomonboltin.telegramtv.R
 import com.solomonboltin.telegramtv.data.models.MovieDa
-import com.solomonboltin.telegramtv.ui.dash.data.DashData
 import com.solomonboltin.telegramtv.vms.MovieDashVM
+import com.solomonboltin.telegramtv.vms.PlayerVM
 import org.koin.androidx.compose.koinViewModel
+import org.slf4j.LoggerFactory
+
+
+private val log = LoggerFactory.getLogger(MovieDashVM::class.java)
 
 
 @Preview(widthDp = 120, heightDp = 15)
@@ -90,12 +109,11 @@ fun MovieActionBarIcon(icon: ImageVector) {
         modifier = Modifier
             .aspectRatio(1f)
             .fillMaxHeight(),  //avoid the oval shape
-        shape = CircleShape,
-        border = BorderStroke(1.dp, Color.White),
+//        shape = CircleShape,
+//        border = BorderStroke(1.dp, Color.White),
         contentPadding = PaddingValues(2.dp),  //avoid the little icon
-        colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White),
-
-        ) {
+//        colors = ButtonDefaults.ContentPadding
+    ) {
         Icon(icon, contentDescription = "content description", tint = Color.White)
     }
 }
@@ -115,7 +133,9 @@ fun MovieInfoBar(movieDa: MovieDa) {
         )
         Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
             androidx.compose.material.Text(
-                text = movieDa.year, style = MaterialTheme.typography.labelMedium, color = Color.White
+                text = movieDa.year,
+                style = MaterialTheme.typography.labelMedium,
+                color = Color.White
             )
             androidx.compose.material.Text(
                 text = movieDa.rating,
@@ -144,14 +164,32 @@ fun MovieInfoBar(movieDa: MovieDa) {
 
 
 @Composable
-fun MovieInList(movieDa: MovieDa, width: Int = 100, height: Int = 120, selected: Boolean = false) {
-    val default = painterResource(R.drawable.movie4)
-//    val image = if (movie.poster1 != null) BitmapPainter(movie.poster1) else default
-    val selectedModifier = Modifier.border(BorderStroke(3.dp, Color.White))
-    Box(
-        modifier = if (selected) selectedModifier else Modifier,
+fun MovieCardUI(movieDa: MovieDa, modifier: Modifier = Modifier) {
+    // dashVm view model
+    val dashVM = koinViewModel<MovieDashVM>()
+    val playerVM = koinViewModel<PlayerVM>()
+
+    val interactionSource = MutableInteractionSource()
+    val isFocused by interactionSource.collectIsFocusedAsState()
+
+    if (isFocused) {
+        log.info("NewUI focused movie: ${movieDa.title}")
+        dashVM.setFocusedMovie(movieDa)
+    }
+    val focusRequester = remember { FocusRequester() }
+
+
+    Card(
+        onClick = {
+            log.info("NewUI Clicked movie: ${movieDa.title}")
+            playerVM.setMovie(movieDa)
+        },
+        interactionSource = interactionSource,
+        modifier = modifier
+            .focusRequester(focusRequester)
     ) {
-        // load image using coil compose
+        val width: Int = 100
+        val height: Int = 120
         AsyncImage(
             model = movieDa.poster1,
             contentDescription = "content description",
@@ -160,7 +198,13 @@ fun MovieInList(movieDa: MovieDa, width: Int = 100, height: Int = 120, selected:
                 .height(height.dp),
             contentScale = ContentScale.Crop,
         )
+    }
 
+    LaunchedEffect (Unit) {
+        if (dashVM.focusedMovie.value == null) {
+            log.info("NewUI no focused movie: when displaying ${movieDa.title} requesting focus")
+            focusRequester.requestFocus()
+        }
     }
 //    "", contentScale = ContentScale.Fit, modifier = Modifier.height(150.dp)
 
@@ -168,38 +212,51 @@ fun MovieInList(movieDa: MovieDa, width: Int = 100, height: Int = 120, selected:
 }
 
 @Composable
-fun MoviesListUI(movieList: DashData.MovieList, selected: Boolean = false) {
+fun MoviesListUI(movieListId: Long, modifier: Modifier = Modifier) {
 
-    //white bold text for movie list title
-    androidx.compose.material.Text(
-        text = movieList.title, color = Color.White, style = MaterialTheme.typography.titleMedium
+    // dashVm view model
+    val dashVM = koinViewModel<MovieDashVM>()
+    log.info("NewFlows getting movieList: $movieListId")
+
+    val finalMovieList by dashVM.getMovieListFlow(movieListId)?.collectAsState() ?: return
+    log.info("NewFlows rendering: ${finalMovieList.movieDas.map { it.title }}")
+
+
+    //
+    Text(
+        text = finalMovieList.chatId.toString(),
+        color = Color.White,
+        style = MaterialTheme.typography.titleMedium
     )
+    // interactionSource = interactionSource,
+    val interactionSource = MutableInteractionSource()
+    val isFocused by interactionSource.collectIsFocusedAsState()
+    if (isFocused) {
+        log.info("NewUI focused movieList: ${finalMovieList.chatId}")
 
-    Row(
+    }
+
+    TvLazyRow(
         horizontalArrangement = Arrangement.spacedBy(3.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(BorderStroke(1.dp, Color.Black))
-            .scrollable(state = ScrollableState { 0f }, orientation = Orientation.Vertical)
+        modifier = modifier
     ) {
-        movieList.movies.forEachIndexed { index, movie ->
-            MovieInList(movieDa = movie.toMovieDa(), selected = (index == 0 && selected))
+        items(finalMovieList.movieDas.size) { index ->
+            MovieCardUI(movieDa = finalMovieList.movieDas[index])
         }
     }
 }
 
+
 @Composable
-fun MovieDashUI(dashData: DashData) {
-    // dead ui for viewing dash data
+fun FocusedMovieImage() {
+    val dashVM = koinViewModel<MovieDashVM>()
+    val focusedMovie by dashVM.focusedMovie.collectAsState()
 
-    val selectedList = dashData.movieLists.getOrNull(0)
-    val selectedMovie = selectedList?.movies?.getOrNull(0)
+    log.info("NewUI displaying focused movie bar: ${focusedMovie?.title}")
 
-    if (selectedMovie != null) {
-        // image width half of screen
-        // image will fade gradually to the right
+    if (focusedMovie != null) {
         AsyncImage(
-            model = dashData.selectedMovie?.toMovieDa()?.poster1,
+            model = focusedMovie!!.poster1,
             contentDescription = "content description",
             modifier = Modifier
                 .fillMaxWidth()
@@ -217,43 +274,75 @@ fun MovieDashUI(dashData: DashData) {
                         ),
                         blendMode = BlendMode.DstIn
                     )
-                }
-            ,
+                },
             contentScale = ContentScale.Crop,
-
         )
     }
-    Column {
-        if (selectedMovie != null) {
-            MovieInfoBar(movieDa = selectedMovie.toMovieDa())
-        }
+    // todo image will fade gradually to the right and to bottom
+}
 
-        dashData.movieLists.forEachIndexed { index, movieList ->
-            MoviesListUI(movieList = movieList, selected = (index == 0))
-        }
+@Composable
+fun FocusedMovieInfo() {
+    val dashVM = koinViewModel<MovieDashVM>()
+    val focusedMovie by dashVM.focusedMovie.collectAsState()
+
+    if (focusedMovie != null) {
+        MovieInfoBar(movieDa = focusedMovie!!)
     }
 }
 
 @Composable
+fun MovieDashUI() {
+    val dashVM = koinViewModel<MovieDashVM>()
+    val movieLists by dashVM.movieListsState.collectAsState()
+
+    log.info("NewUi updated movieLists: $movieLists")
+
+    Box {
+        FocusedMovieImage()
+        Column {
+            FocusedMovieInfo()
+            TvLazyColumn(
+                state = rememberTvLazyListState(),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(10.dp)
+            ) {
+                items(movieLists.size) { index ->
+                    MoviesListUI(movieListId = movieLists[index])
+                }
+            }
+        }
+    }
+
+
+}
+
+@Composable
 fun MovieDashLiveUI() {
-    val movieDashVM = koinViewModel<MovieDashVM>()
-    val dashData by movieDashVM.dashData.collectAsState()
-
-
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+
+//    val mainFocusRequester = remember { FocusRequester() }
+
         Box(
             Modifier
                 .background(Color.Black.copy(alpha = 0.8f))
                 .fillMaxSize()
-                .onKeyEvent {
-                    println(it)
-                    true
-                }
+//                .focusRequester(mainFocusRequester)
+//                .onFocusEvent { fEvent ->
+//                    log.info("NewUI MovieDashLiveUI onFocusEvent: $fEvent")
+//                }
         ) {
-            MovieDashUI(dashData = dashData)
+            MovieDashUI()
         }
     }
 
+    log.info("NewUI rendering MovieDashLiveUI")
+    LaunchedEffect(Unit) {
+        log.info("NewUI requesting focus")
+//        mainFocusRequester.requestFocus()
+    }
 }
 
 

@@ -24,13 +24,14 @@ class ChatM(val clientVM: ClientVM, val chat: TdApi.Chat) {
             while (true) {
                 println("ScrappingFlows messagesFlow flow loop")
 
-                getMessages(chat.id, lastMessageId).collect { message ->
-                    println("ScrappingFlows messagesFlow flow loop collect")
-                    if (message.content is TdApi.MessageVideo) {
+                getMessages(chat.id, lastMessageId)
+
+                    .collect { message ->
+                        println("NewFlows messagesFlow  getMessage collect")
                         emit(message)
+
+                        lastMessageId = message.id
                     }
-                    lastMessageId = message.id
-                }
 
                 println("ScrappingFlows sleeping: $lastMessageId")
                 delay(1000)
@@ -41,7 +42,7 @@ class ChatM(val clientVM: ClientVM, val chat: TdApi.Chat) {
     fun getMessages(chatId: Long, fromMessageId: Long = 0): Flow<TdApi.Message> =
 
         callbackFlow {
-            println("ScrappingFlows getMessages")
+            println("ScrappingFlows getMessages $chatId $fromMessageId")
 
             clientVM.client.send(
                 TdApi.GetChatHistory(
@@ -56,7 +57,7 @@ class ChatM(val clientVM: ClientVM, val chat: TdApi.Chat) {
                     println("ScrappingFlows getMessages error ${res.message}")
                     close()
                 }
-                println("ScrappingFlows getMessages res ${(res as TdApi.Messages).messages.size})}")
+                println("ScrappingFlows getMessages res ${(res as TdApi.Messages).totalCount } )}")
 
 
                 (res as TdApi.Messages).messages.forEach {
@@ -75,20 +76,19 @@ class ChatM(val clientVM: ClientVM, val chat: TdApi.Chat) {
         }
 
 }
+
 data class Chat(val id: Long, val title: String)
 
 
 class ClientVM : ViewModel() {
     val log = LoggerFactory.getLogger(ClientVM::class.java)
 
-    private val context: Context by inject(Context::class.java)
     lateinit var client: Client
+    private val context: Context by inject(Context::class.java)
 
 
-    val chatPositionFlow = MutableSharedFlow<Long>()
-
-
-    private var fileUpdatesHandler: (TdApi.File) -> Unit = {
+    private val chatPositionFlow = MutableSharedFlow<Long>()
+    private var defaultFileUpdatesHandler: (TdApi.File) -> Unit = {
         Log.i("ClientVm", "No handler for file updates")
     }
 
@@ -111,9 +111,8 @@ class ClientVM : ViewModel() {
         return response
     }
 
-
     fun setFileUpdatesHandler(handler: (TdApi.File) -> Unit) {
-        fileUpdatesHandler = handler
+        defaultFileUpdatesHandler = handler
     }
 
     fun requestLoadingChats() {
@@ -121,7 +120,6 @@ class ClientVM : ViewModel() {
     }
 
     private fun handleUpdates(update: TdApi.Object) {
-
         when (update) {
             is TdApi.UpdateAuthorizationState -> {
                 handleAuthStateUpdate(update.authorizationState)
@@ -141,11 +139,11 @@ class ClientVM : ViewModel() {
 
             is TdApi.UpdateChatPosition -> {
                 viewModelScope.launch {
-                    println("ChatPositionUpdate $update")
+//                    println("ChatPositionUpdate $update")
 
                     chatPositionFlow.emit(update.chatId)
                 }
-                println("ChatPositionUpdate $update")
+//                println("ChatPositionUpdate $update")
 
             }
 
@@ -154,22 +152,22 @@ class ClientVM : ViewModel() {
             }
 
             is TdApi.UpdateUser -> {
-                Log.i("UpdateClientVMUser", "Unhandled update: $update")
+//                Log.i("UpdateClientVMUser", "Unhandled update: $update")
 
             }
 
             is TdApi.Messages -> {
-                Log.i("UpdateClientVMUser", "Unhandled update: $update")
+//                Log.i("UpdateClientVMUser", "Unhandled update: $update")
 
             }
 
             is TdApi.UpdateNewMessage -> {
-                Log.i("UpdateClientVMUser", "Unhandled update: $update")
+//                Log.i("UpdateClientVMUser", "Unhandled update: $update")
 
             }
 
             else -> {
-                Log.i("UpdateClientVM", "Unhandled update: $update")
+//                Log.i("UpdateClientVM", "Unhandled update: $update")
             }
 
 
@@ -177,7 +175,7 @@ class ClientVM : ViewModel() {
     }
 
     private fun handleFileUpdates(file: TdApi.File) {
-        fileUpdatesHandler(file)
+        defaultFileUpdatesHandler(file)
     }
 
     private fun handleAuthStateUpdate(authState: TdApi.AuthorizationState) {
@@ -236,7 +234,7 @@ class ClientVM : ViewModel() {
     // User state
     private var _user = MutableStateFlow<TdApi.User?>(null)
     val user: StateFlow<TdApi.User?> = _user.asStateFlow()
-    fun setUser(user: TdApi.User) {
+    private fun setUser(user: TdApi.User) {
         _user.update { user }
     }
 

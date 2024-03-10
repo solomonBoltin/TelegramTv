@@ -40,7 +40,8 @@ Movie(client, message):
 ```
 
 By editing the `MovieAggregator` and `Movie` classes, you can change the way movies are aggregated from chats.
-and for example be able to aggregate a movie from multiple messages, so they can be more rich and display more information.
+and for example be able to aggregate a movie from multiple messages 
+(like text, photo messages before the video file), so they can be more rich and display more information.
 
 
 ## The chats, messages aggregators
@@ -48,13 +49,13 @@ in order to get to the movies we first have to aggregate the chats and messages.
 the way its happining in the app is by using two classes that have accses to the telegram client
 the two classes are `chatAggregator` and `messageAggregator`
 
-The chats aggregator uses the client.LoadChats() function to to request chatPositionUpdates from telegram 
-Sets a updateListner for ChatPositionUpdates and emits the chatPosition to the chatsPositionUpdates flow.
+The chats aggregator uses the client.LoadChats() function (from TDLIB) to to request chatPositionUpdates from telegram.
+Then sets a updateListner for ChatPositionUpdates and emits the chatPosition to the chatsPositionUpdates flow.
 a chat flow maps the chatsPositionUpdates flow to chat id and reduces duplicates.
 
 ```
 
-updates and sets updateListner for ChatPositionUpdates 
+updates and sets updateListner for ChatPositionUpdates
 and emits the chatPosition to the chatsPositionUpdates flow.
 then the chatsPostion
 class ChatsAggregator(private val client: TelegramClient) {
@@ -93,7 +94,7 @@ the views tree will look like this:
 Main:
     Home:
         ContentDash
-        SerachDash
+        SearchDash
         PalyingVideoView
     ConnectionTrobule:
         NoInternet
@@ -140,10 +141,8 @@ class ContentDash(
 }
 
 ```
-            
-        
-        
-    
+
+
 
 
 

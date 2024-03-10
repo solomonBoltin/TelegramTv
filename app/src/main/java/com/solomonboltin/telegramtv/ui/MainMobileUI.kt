@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
+import com.solomonboltin.telegramtv.Scratches
 import com.solomonboltin.telegramtv.ui.connection.ConnectionUI
 import com.solomonboltin.telegramtv.ui.dash.MovieDashLiveUI
 import com.solomonboltin.telegramtv.ui.movie.MyContent
@@ -14,38 +15,25 @@ import com.solomonboltin.telegramtv.vms.FilesVM
 import com.solomonboltin.telegramtv.vms.MovieDashVM
 import com.solomonboltin.telegramtv.vms.PlayerVM
 import org.drinkless.td.libcore.telegram.TdApi
+import org.koin.androidx.compose.getKoin
 import org.koin.androidx.compose.koinViewModel
 
 @Preview()
 @Composable
-fun MainUI() {
+fun MainMobileUI() {
     Log.i("MainUI", "Starting main ui")
 
     val clientVM = koinViewModel<ClientVM>()
+
     val connectionState by clientVM.connectionState.collectAsState()
     val clientState by clientVM.authState.collectAsState()
 
-
-
-    val filesVM = koinViewModel<FilesVM>()
     val playerVM = koinViewModel<PlayerVM>()
-
     val playingMovie by playerVM.playingMovie.collectAsState()
 
     val movieDashVM = koinViewModel<MovieDashVM>()
 
 
-    val user by clientVM.user.collectAsState()
-
-
-//    val itemsList = (0..5).toList()
-//
-//    LazyRow(){
-//        items(itemsList){
-//            Box(modifier = Modifier.background(Color.Yellow).size(100.dp).border(BorderStroke(3.dp, Color.Black)).padding(start = 10.dp)){
-//            }
-//        }
-//    }
 
     when(connectionState){
         is TdApi.ConnectionStateConnecting -> {
